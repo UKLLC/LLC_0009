@@ -2,38 +2,66 @@
 ### Clean Hospital Episode Statistics ###
 #########################################
 
-# Note: HES data are fixed to 31st December 2021 - need to subset for same dates in mortality records
+
+### Set up R environment ###
+
+# Libraries
+library(data.table)
+
+# Source required files and functions
+source("r_label_helper.R") # Will tell R which project space to connect to and identify what data is available within the LLC TRE
+
+expss_disable_value_labels_support() # Disable labels for values in data (can be enabled later but this will mess with recoding)
+rm(allviews) # List of all data tables (not really needed - viewnames is more help as lists all objects can load)
+
+
+## Comorbidity scores (via HES) ##
+
+# Load in data
+data_source <- "returned" # Linked hospital data name
+table <- "comorbidity_scores_hesapc_mar19feb20_v0001_20230420" # Specific dataset
+data_t1 <- lab_func(proj_no,data_source,table) # Run labelling function
+name_t1 <- paste0(data_source,"_",table) # Create df name
+assign(name_t1, data_t1) # Assign name to dataset
+comorbidity <- returned_comorbidity_scores_hesapc_mar19feb20_v0001_20230420 # Change object name so when saves, is saved with a cleaner name
+rm(data_t1, returned_comorbidity_scores_hesapc_mar19feb20_v0001_20230420) # Tidy
+
+# Save
+save(comorbidity, file = "S:/LLC_0009/data/Cleaned Cohorts/comorbidity.RData")
+rm(comorbidity)
 
 
 ## Vaccination records ##
 
+# Note: Data are only COVID-19 vaccines
+
 # Load in data
 data_source <- "nhsd" # Linked hospital data name
-table <- "cvs_v0001" # Specific dataset
+table <- "cvs_v0002" # Specific dataset
 data_t1 <- lab_func(proj_no,data_source,table) # Run labelling function
 name_t1 <- paste0(data_source,"_",table) # Create df name
 assign(name_t1, data_t1) # Assign name to dataset
 rm(data_t1) # Tidy
 
 # # Select only relevant dates
-# nhsd_cvs_v0001 <- nhsd_cvs_v0001[nhsd_cvs_v0001$event_received_ts < '2022-01-01 00:00:00',]
+nhsd_cvs_v0002 <- nhsd_cvs_v0002[nhsd_cvs_v0002$event_received_ts < '2022-08-26 00:00:00',]
 
 # Subset required variables
-nhsd_cvs_v0001 <- nhsd_cvs_v0001[, c("llc_0009_stud_id", "vaccination_procedure_code")]
+nhsd_cvs_v0002 <- nhsd_cvs_v0002[, c("llc_0009_stud_id", "vaccination_procedure_code")]
 
 # Define dose number
 # SNOMED codes for vaccine doses are 1st dose = 1324681000000101, 2nd dose = 1324691000000104, 3rd/4th dose = 1362591000000103
-nhsd_cvs_v0001$dose <- 1 # Set all as first dose then update below
-nhsd_cvs_v0001$dose[nhsd_cvs_v0001$vaccination_procedure_code == 1324691000000104] <- 2 # 2nd dose
-nhsd_cvs_v0001$dose[nhsd_cvs_v0001$vaccination_procedure_code == 1362591000000103] <- 3 #  3rd dose
+nhsd_cvs_v0002$dose <- 1 # Set all as first dose then update below
+nhsd_cvs_v0002$dose[nhsd_cvs_v0002$vaccination_procedure_code == 1324691000000104] <- 2 # 2nd dose
+nhsd_cvs_v0002$dose[nhsd_cvs_v0002$vaccination_procedure_code == 1362591000000103] <- 3 #  3rd dose
 
 # Aggregate by number of doses person has had
-nhsd_cvs_v0001 <- data.table(nhsd_cvs_v0001) # Convert type for next step
-vax <- nhsd_cvs_v0001[, list(vax_doses = max(dose)), by = "llc_0009_stud_id"] # Aggregate to largest number of doses per individual
+nhsd_cvs_v0002 <- data.table(nhsd_cvs_v0002) # Convert type for next step
+vax <- nhsd_cvs_v0002[, list(vax_doses = max(dose)), by = "llc_0009_stud_id"] # Aggregate to largest number of doses per individual
 
 # Save
 save(vax, file = "S:/LLC_0009/data/Cleaned Cohorts/nhs_vaccinated.RData")
-rm(vax, nhsd_cvs_v0001)
+rm(vax, nhsd_cvs_v0002)
 
 
 ## HES - Accident & Emergency attendences ##
@@ -78,37 +106,41 @@ rm(vax, nhsd_cvs_v0001)
 
 # Load in data - note slow
 data_source <- "nhsd" # Linked hospital data name
-table <- "hesapc_v0001" # Specific dataset
+table <- "hesapc_v0002" # Specific dataset
 data_t1 <- lab_func(proj_no,data_source,table) # Run labelling function
 name_t1 <- paste0(data_source,"_",table) # Create df name
 assign(name_t1, data_t1) # Assign name to dataset
-nhsd_hesapc_v0001 <- as.data.table(nhsd_hesapc_v0001) # Convert to data.table format
+nhsd_hesapc_v0002 <- as.data.table(nhsd_hesapc_v0002) # Convert to data.table format
 rm(data_t1) # Tidy
 
 # Subset required variables
-nhsd_hesapc_v0001 <- nhsd_hesapc_v0001[, c("llc_0009_stud_id", "epikey", "admidate", "epiorder", "diag_3_01", "diag_3_02", "diag_3_03", "diag_3_04", "diag_3_05", "diag_3_06", "diag_3_07", "diag_3_08", "diag_3_09", "diag_3_10", "diag_3_11", "diag_3_12", "diag_4_01", "diag_4_02", "diag_4_03", "diag_4_04", "diag_4_05", "diag_4_06", "diag_4_07", "diag_4_08", "diag_4_09", "diag_4_10", "diag_4_11", "diag_4_12")]
+nhsd_hesapc_v0002 <- nhsd_hesapc_v0002[, c("llc_0009_stud_id", "epikey", "admidate", "epiorder", "diag_3_01", "diag_3_02", "diag_3_03", "diag_3_04", "diag_3_05", "diag_3_06", "diag_3_07", "diag_3_08", "diag_3_09", "diag_3_10", "diag_3_11", "diag_3_12", "diag_4_01", "diag_4_02", "diag_4_03", "diag_4_04", "diag_4_05", "diag_4_06", "diag_4_07", "diag_4_08", "diag_4_09", "diag_4_10", "diag_4_11", "diag_4_12")]
 
 # Drop any duplicated rows introduced during the ingestion process via UK LLC
-nhsd_hesapc_v0001 <- unique(nhsd_hesapc_v0001)
+nhsd_hesapc_v0002 <- unique(nhsd_hesapc_v0002)
 
 # Use only first episode of a spell (epiorder == 1)
-nhsd_hesapc_v0001 <- nhsd_hesapc_v0001[nhsd_hesapc_v0001$epiorder == 1,]
+nhsd_hesapc_v0002 <- nhsd_hesapc_v0002[nhsd_hesapc_v0002$epiorder == 1,]
+
+# Subset dates for pre study measures (return to create measures later)
+nhsd_2019 <- nhsd_hesapc_v0002[nhsd_hesapc_v0002$admidate >= "2019-01-01" & nhsd_hesapc_v0002$admidate < "2020-01-01",] # 2019 only
+nhsd_1year <- nhsd_hesapc_v0002[nhsd_hesapc_v0002$admidate >= "2019-03-01" & nhsd_hesapc_v0002$admidate < "2020-03-01",] # one year before outcomes
 
 # Subset dates for outcome 
-# nhsd_hesapc_v0001 <- nhsd_hesapc_v0001[nhsd_hesapc_v0001$admidate >= "2020-03-01" & nhsd_hesapc_v0001$admidate < "2022-01-01",] # 1st March 2020 - 31st December 2021
-nhsd_hesapc_v0001 <- nhsd_hesapc_v0001[nhsd_hesapc_v0001$admidate >= "2020-03-01",] # 1st March 2020 - 25th August 2022
+# nhsd_hesapc_v0002 <- nhsd_hesapc_v0002[nhsd_hesapc_v0002$admidate >= "2020-03-01" & nhsd_hesapc_v0002$admidate < "2022-01-01",] # 1st March 2020 - 31st December 2021
+nhsd_hesapc_v0002 <- nhsd_hesapc_v0002[nhsd_hesapc_v0002$admidate >= "2020-03-01" & nhsd_hesapc_v0002$admidate < "2022-08-26",] # 1st March 2020 - 25th August 2022
 
 # Load in codelists
 codelist <- read.csv("S:/LLC_0009/data/codelist.csv")
 
 # Classify primary diagnosis position if matches codelist
-nhsd_hesapc_v0001 <- merge(nhsd_hesapc_v0001, codelist, by.x = "diag_3_01", by.y = "code", all.x = TRUE, allow.cartesian = TRUE) # Join codelist on
+nhsd_hesapc_v0002 <- merge(nhsd_hesapc_v0002, codelist, by.x = "diag_3_01", by.y = "code", all.x = TRUE, allow.cartesian = TRUE) # Join codelist on
 
 # Create measure for total admissions
-nhsd_hesapc_v0001$total <- "total_admissions"
+nhsd_hesapc_v0002$total <- "total_admissions"
 
 # Reshape data to wide format
-hes <- nhsd_hesapc_v0001[, c("llc_0009_stud_id", "measure", "total")] # Drop unncessary data
+hes <- nhsd_hesapc_v0002[, c("llc_0009_stud_id", "measure", "total")] # Drop unncessary data
 hes$count <- 1 # Create variable to aggregate
 hes <- dcast(data = hes, llc_0009_stud_id ~ measure + total, fun = sum, value.var = "count", fill = 0) # reshape 
 # hes$'NA' <- NULL # Drop variable
@@ -123,11 +155,18 @@ rm(hes)
 
 # Repeat but exclude episodes before survey date
 load("S:/LLC_0009/data/Cleaned Cohorts/all_ids.RData") # Load in list of IDs and survey date
+all_ids$LLC_0009_stud_id <- as.character(all_ids$LLC_0009_stud_id) # To match NHS data type
 all_ids$date[all_ids$date == "NA/NA/2021"] <- "9/3/2021" # Set as max date since missing
 all_ids$date[all_ids$date == "-7/-7/2021"] <- "9/3/2021"
 all_ids$last_date <- as.POSIXct(all_ids$date, format = "%d/%m/%Y") # Convert date to match same format as in HES
-nhsd_hesapc_v0001 <- merge(nhsd_hesapc_v0001, all_ids, by.x = "llc_0009_stud_id", by.y = "LLC_0009_stud_id", all.x = TRUE) # Join together
-hes_after <- nhsd_hesapc_v0001[nhsd_hesapc_v0001$admidate > nhsd_hesapc_v0001$last_date] # Exclude episodes before survey date
+lkup <- read.csv(file = "S:/LLC_0009/llc_guidance/stud_id15_18_lookup_0009.csv", fileEncoding = "UTF-8-BOM") # So can match the old and new IDs
+lkup$cohort <- NULL #  Drop as not needed
+all_ids <- merge(all_ids, lkup, by.x = "LLC_0009_stud_id", by.y = "llc_0009_stud_id18", all.x = TRUE) # Join on lookup table to file
+all_ids$llc_0009_stud_id15 <- as.character(all_ids$llc_0009_stud_id15) # To match NHS data type
+rm(lkup)
+
+nhsd_hesapc_v0002 <- merge(nhsd_hesapc_v0002, all_ids, by.x = "llc_0009_stud_id", by.y = "llc_0009_stud_id15", all.x = TRUE) # Join together
+hes_after <- nhsd_hesapc_v0002[nhsd_hesapc_v0002$admidate > nhsd_hesapc_v0002$last_date] # Exclude episodes before survey date
 hes_after$time_dif <- lubridate::interval(hes_after$last_date, hes_after$admidate) # Calculate time interval between end of survey and admission
 hes_after$time <- as.numeric(lubridate::as.period(hes_after$time_dif, unit = "days"), "days") # Calculate days to admission
 
@@ -157,8 +196,46 @@ hes$`Time to Emergency Urgent Care Sensitive `[hes$`Time to Emergency Urgent Car
 hes <- hes[, c(1:6, 17:21)] # Subset required vars
 save(hes, file = "S:/LLC_0009/data/Cleaned Cohorts/nhs_hes_post_wave.RData") # Save
 
+# Create measures for pre-pandemic
+
+# Classify primary diagnosis position if matches codelist
+nhsd_2019 <- merge(nhsd_2019, codelist, by.x = "diag_3_01", by.y = "code", all.x = TRUE, allow.cartesian = TRUE) # Join codelist on - 2019 events
+nhsd_1year <- merge(nhsd_1year, codelist, by.x = "diag_3_01", by.y = "code", all.x = TRUE, allow.cartesian = TRUE) # Join codelist on - 1 year pre-pandemic
+
+# Create measure for total admissions
+nhsd_2019$total <- "total_admissions"
+nhsd_1year$total <- "total_admissions"
+
+# Reshape data to wide format - 2019 data
+hes <- nhsd_2019[, c("llc_0009_stud_id", "measure", "total")] # Drop unncessary data
+hes$count <- 1 # Create variable to aggregate
+hes <- dcast(data = hes, llc_0009_stud_id ~ measure + total, fun = sum, value.var = "count", fill = 0) # reshape 
+# hes$'NA' <- NULL # Drop variable
+names(hes)[names(hes) == "NA_total_admissions"] <- "total_admissions" # Rename variables
+names(hes)[names(hes) == "Ambulatory Care Sensitive Acute_total_admissions"] <- "Ambulatory Care Sensitive Acute" 
+names(hes)[names(hes) == "Ambulatory Care Sensitive Chronic_total_admissions"] <- "Ambulatory Care Sensitive Chronic" 
+names(hes)[names(hes) == "Ambulatory Care Sensitive Vaccine-preventable_total_admissions"] <- "Ambulatory Care Sensitive Vaccine-preventable" 
+names(hes)[names(hes) == "Emergency Urgent Care Sensitive _total_admissions"] <- "Emergency Urgent Care Sensitive " 
+
+save(hes, file = "S:/LLC_0009/data/Cleaned Cohorts/nhs_hes_2019.RData") # Save
+rm(hes)
+
+# Reshape data to wide format - 2019 data
+hes <- nhsd_1year[, c("llc_0009_stud_id", "measure", "total")] # Drop unncessary data
+hes$count <- 1 # Create variable to aggregate
+hes <- dcast(data = hes, llc_0009_stud_id ~ measure + total, fun = sum, value.var = "count", fill = 0) # reshape 
+# hes$'NA' <- NULL # Drop variable
+names(hes)[names(hes) == "NA_total_admissions"] <- "total_admissions" # Rename variables
+names(hes)[names(hes) == "Ambulatory Care Sensitive Acute_total_admissions"] <- "Ambulatory Care Sensitive Acute" 
+names(hes)[names(hes) == "Ambulatory Care Sensitive Chronic_total_admissions"] <- "Ambulatory Care Sensitive Chronic" 
+names(hes)[names(hes) == "Ambulatory Care Sensitive Vaccine-preventable_total_admissions"] <- "Ambulatory Care Sensitive Vaccine-preventable" 
+names(hes)[names(hes) == "Emergency Urgent Care Sensitive _total_admissions"] <- "Emergency Urgent Care Sensitive " 
+
+save(hes, file = "S:/LLC_0009/data/Cleaned Cohorts/nhs_hes_1yearpre.RData") # Save
+rm(hes)
+
 # Tidy
-rm(hes, nhsd_hesapc_v0001, hes_after, all_ids)
+rm(nhsd_hesapc_v0002, nhsd_2019, nhsd_1year)
 
 ## HES - Critical Care ## - need to check
 

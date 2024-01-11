@@ -12,7 +12,7 @@
 #             B: one data_source at a time - AND UPDATE data_source variable
 #             C: all project data in one go - NO UPDATE required
 #         
-# Date: 04/03/2022 (version 1) 
+# Date: 13/01/2023 (version 1.1) 
 #######################################################################################
 
 #################################
@@ -20,18 +20,33 @@
 #################################
 proj_no = "LLC_0009"
 
+##############################################################
+# define function to check and install packages if required
+##############################################################
+load_install_packages <-function(x){
+  for(i in x){
+    # returns true if package loads
+    if(!require(i, character.only = T)){
+      # if package not able to be loaded (re)install
+      install.packages(i, dependencies = T)
+      # load package following install
+      require(i, character.only = T)
+    }
+  }
+}
+
+##############
+# packages
+#############
+packages = c("tidyr", "dplyr", "RODBC", "expss", "stringr", "tidyr", "rstudioapi")
+# run function to load and install packages
+load_install_packages(packages)
+
 ####################################################################################################################
 # set the dir to where this script is save and source the labelling function (assumes both scripts in same location)
 ####################################################################################################################
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 source("r_label_functions.R")
-
-##############
-# packages
-#############
-packages = c("tidyr", "dplyr", "RODBC", "expss", "stringr", "tidyr")
-# run function to load and install packages
-load_install_packages(packages)
 
 #########################################
 # DB connection and project information
@@ -45,6 +60,7 @@ viewnames <- tolower(allviews[allviews$TABLE_SCHEM %in% proj_no,"TABLE_NAME"])
 # and print to sense-check
 print(viewnames) 
 
+# 
 # ######################################################################
 # # METHOD A: label one table at a time
 # # ACTION2a: define/update data_source AND table name to label (use lowercase)
@@ -62,20 +78,15 @@ print(viewnames)
 # # METHOD B: separate one study/source and label multiple tables at a time
 # # ACTION2b: define/update data_source to label (use lowercase)
 # ######################################################################
-# data_source <- "bcs70"
+# data_source <- "genscot"
 # # get all views names belonging to data source/study
-# one_stud_viewnames <- grep(data_source, viewnames, value=TRUE)
-# # pull all views belonging to chosen data source - creates list of dataframes
-# one_stud_views <- lapply(one_stud_viewnames, function(X) {
-#   sqlQuery(conn, paste0("select * from [UKSERPUKLLC].[",proj_no,"].[", X, "]"), stringsAsFactors=FALSE)})
-# # add names to dataframes
-# names(one_stud_views) <- one_stud_viewnames
+# one_stud_viewnames <- grep(paste0("^",data_source), viewnames, value=TRUE)
+# # new
+# one_stud_views_split <- str_split_fixed(one_stud_viewnames,"_",2)
 # # create empty list to populate
 # one_stud_dfs_w_labs <- list()
-# # separate data_source from descriptive part of table name
-# one_stud_views_split <- str_split_fixed(names(one_stud_views),"_",2)
 # # go through each dataframe and apply values and variable labels
-# for (i in 1:length(one_stud_views)){
+# for (i in 1:length(one_stud_viewnames)){
 #   # define schema and tables names for function to run
 #   data_source <- one_stud_views_split[i,1]
 #   table <- one_stud_views_split[i,2]
@@ -90,18 +101,13 @@ print(viewnames)
 # ####################################################################
 # # METHOD C: label all tables at same time - WARNING - SLOW TO RETRIVE ALL DATA
 # ####################################################################
-# # pull all data in project - warning this can be slow if project includes large number of datasets
-# all_views <- lapply(viewnames, function(X) {
-#   sqlQuery(conn, paste0("select * from [UKSERPUKLLC].[",proj_no,"].[", X, "]"), stringsAsFactors=FALSE)})
-# # add names to dataframes
-# names(all_views) <- viewnames
 # # create empty list to populate
 # all_dfs_w_labs <- list()
 # # separate study name from descriptive part of table name
-# all_views_split <- str_split_fixed(names(all_views),"_",2)
+# all_views_split <- str_split_fixed(viewnames,"_",2)
 # # go through each dataframe and apply values and variable labels
-# for (i in 1:length(all_views)){
-#   # define schema and tables names for function to run 
+# for (i in 1:length(viewnames)){
+#   # define schema and tables names for function to run
 #   data_source <- all_views_split[i,1]
 #   table <- all_views_split[i,2]
 #   # run labelling function
@@ -113,13 +119,13 @@ print(viewnames)
 # }
 # 
 # 
-
-
-
-
-
-
-
-
-
-
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 

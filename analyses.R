@@ -2,7 +2,7 @@
 ### Analyses ###
 ################
 
-# Note: Still under construction so please don't judge!
+# Please don't judge my coding too harshly!
 
 # Libraries
 library(data.table)
@@ -49,6 +49,13 @@ all_data$`Emergency Urgent Care Sensitive `[is.na(all_data$`Emergency Urgent Car
 all_data$total_admissions[is.na(all_data$total_admissions)] <- 0
 all_data$`Ambulatory Care Sensitive All` <- all_data$`Ambulatory Care Sensitive Acute` + all_data$`Ambulatory Care Sensitive Chronic` + all_data$`Ambulatory Care Sensitive Vaccine-preventable` # Create overall ambulatory care sensitive measure
 
+# Join on comorbidity data
+load("S:/LLC_0009/data/Cleaned Cohorts/comorbidity.RData") # Load data
+all_data <- merge(all_data, comorbidity, by = "LLC_0009_stud_id", all.x = TRUE) # Join data together
+all_data$char_cci[is.na(all_data$char_cci)] <- 0 # Set to 0 as not been admitted to hospital
+all_data$quan_cci[is.na(all_data$quan_cci)] <- 0 # repeat
+all_data$unw_eci[is.na(all_data$unw_eci)] <- 0 # repeat
+
 # Join on vaccination status
 load("S:/LLC_0009/data/Cleaned Cohorts/nhs_vaccinated.RData") # England and Wales
 all_data <- merge(all_data, vax, by.x = "LLC_0009_stud_id", by.y = "llc_0009_stud_id", all.x = TRUE) # Join data together
@@ -66,11 +73,12 @@ all_data <- all_data[all_data$country == "England" & !is.na(all_data$country),] 
 load(file = "S:/LLC_0009/data/Cleaned Cohorts/who_was_linked.RData")
 all_data <- merge(all_data, linked_ppl, by.x = "LLC_0009_stud_id", by.y = "llc_0009_stud_id", all.x = TRUE) # Join data together
 table(all_data$linked, exclude = NULL) # Check how many were linked
+table(all_data$linked, all_data$cohort, exclude = NULL) # Check how many were linked per cohort
 table(all_data$linked, all_data$disruption_appointments, exclude = NULL)
 table(all_data$linked, all_data$disruption_medications, exclude = NULL)
 table(all_data$linked, all_data$disruption_procedures, exclude = NULL)
 all_data <- all_data[all_data$linked == 1 & !is.na(all_data$linked),] # Exclude cases not linked
-rm(geodata, hes, linked_ppl, vax) # Tidy
+rm(geodata, hes, linked_ppl, vax, comorbidity) # Tidy
 
 # # Join on genscot
 # names(genscot)[names(genscot) == "number_covid_vax"] <- "vax_doses" # Until re-run clean_cohorts.R will need this
@@ -134,7 +142,7 @@ rm(deaths)
 ### 2. Deal with missing data ###
 
 # Subset data for imputation purposes
-for_analysis <- all_data[, c("LLC_0009_stud_id", "age", "sex", "not_white", "own_home", "general_health", "imd2019_income_q5", "disruption_appointments", "disruption_medications", "disruption_procedures")] # include only variables will use
+for_analysis <- all_data[, c("LLC_0009_stud_id", "age", "sex", "not_white", "own_home", "general_health", "imd2019_income_q5", "asthma", "cancer", "diabetes", "hypertension", "covid", "char_cci", "quan_cci", "unw_eci", "disruption_appointments", "disruption_medications", "disruption_procedures")] # include only variables will use
 
 # Describe extent of missing data
 miss_table <- data.frame(sapply(for_analysis, function(x) sum(is.na(x))))
@@ -175,6 +183,53 @@ load(file = "S:/LLC_0009/data/Cleaned Cohorts/imputed_data.RData")
 # Calculate any disruption from the imputed dataset
 all_data$imp_disruption_any <- all_data$imp_disruption_appointments + all_data$imp_disruption_procedures + all_data$imp_disruption_medications # Add together
 all_data$imp_disruption_any[all_data$imp_disruption_any > 1] <- 1 # Recode to binary yes/no option
+
+# Calculate age-squared
+all_data$imp_age2 <- all_data$imp_age^2
+
+# Update to V002 measures
+# Yes, yes, I could edit the earlier lines, but since we impued missing values I want to use the original data
+lkup <- read.csv(file = "S:/LLC_0009/llc_guidance/stud_id15_18_lookup_0009.csv", fileEncoding = "UTF-8-BOM") # Load in lookup table so can match the old and new IDs
+lkup$cohort <- NULL #  Drop as not needed
+all_data <- merge(all_data, lkup, by.x = "LLC_0009_stud_id", by.y = "llc_0009_stud_id18", all.x = TRUE) # Join on lookup table to imputed data file
+rm(lkup)
+
+# Sort out vaccination measures
+all_data$vax_doses <- NULL # Drop affected variables
+all_data$vaccinated <- NULL
+load("S:/LLC_0009/data/Cleaned Cohorts/nhs_vaccinated.RData") # England and Wales (v002)
+vax$llc_0009_stud_id <- as.numeric(vax$llc_0009_stud_id) # To match main data class type
+all_data <- merge(all_data, vax, by.x = "llc_0009_stud_id15", by.y = "llc_0009_stud_id", all.x = TRUE) # Join data together
+all_data$vaccinated <- NA # Create new variable - # Fully vaccinated or not
+all_data$vaccinated[is.na(all_data$vax_doses) | all_data$vax_doses == 1] <- 0 # If missing, then is 0
+all_data$vaccinated[all_data$vax_doses > 1] <- 1
+rm(vax) # Tidy
+
+# Sort out the hospital admissions data
+all_data$total_admissions <- NULL # Drop affected variables
+all_data$`Ambulatory Care Sensitive All` <- NULL
+all_data$`Ambulatory Care Sensitive Acute` <- NULL
+all_data$`Ambulatory Care Sensitive Chronic` <- NULL
+all_data$`Ambulatory Care Sensitive Vaccine-preventable` <- NULL
+all_data$`Emergency Urgent Care Sensitive ` <- NULL
+
+load("S:/LLC_0009/data/Cleaned Cohorts/nhs_hes.RData") # Load HES outcome vars (V002 data)
+all_data <- merge(all_data, hes, by.x = "llc_0009_stud_id15", by.y = "llc_0009_stud_id", all.x = TRUE) # Join on HES data
+all_data$`Ambulatory Care Sensitive Acute`[is.na(all_data$`Ambulatory Care Sensitive Acute`)] <- 0 # Fill in NAs with 0s for joined on outcome measures (since if no match then they did not have a hospital admission)
+all_data$`Ambulatory Care Sensitive Chronic`[is.na(all_data$`Ambulatory Care Sensitive Chronic`)] <- 0
+all_data$`Ambulatory Care Sensitive Vaccine-preventable`[is.na(all_data$`Ambulatory Care Sensitive Vaccine-preventable`)] <- 0
+all_data$`Emergency Urgent Care Sensitive `[is.na(all_data$`Emergency Urgent Care Sensitive `)] <- 0
+all_data$total_admissions[is.na(all_data$total_admissions)] <- 0
+all_data$`Ambulatory Care Sensitive All` <- all_data$`Ambulatory Care Sensitive Acute` + all_data$`Ambulatory Care Sensitive Chronic` + all_data$`Ambulatory Care Sensitive Vaccine-preventable` # Create overall ambulatory care sensitive measure
+
+# Convert outcome variables to binary variables
+all_data$`Ambulatory Care Sensitive All`[all_data$`Ambulatory Care Sensitive All` > 1] <- 1
+all_data$`Ambulatory Care Sensitive Acute`[all_data$`Ambulatory Care Sensitive Acute` > 1] <- 1
+all_data$`Ambulatory Care Sensitive Chronic`[all_data$`Ambulatory Care Sensitive Chronic` > 1] <- 1
+all_data$`Ambulatory Care Sensitive Vaccine-preventable`[all_data$`Ambulatory Care Sensitive Vaccine-preventable` > 1] <- 1
+all_data$`Emergency Urgent Care Sensitive `[all_data$`Emergency Urgent Care Sensitive ` > 1] <- 1
+all_data$total_admissions[all_data$total_admissions > 1] <- 1
+rm(hes)
 
 # Dealing with the weights one last time
 # We have an issue where some strata only have one PSU within them
@@ -303,7 +358,7 @@ write.csv(table1w, "../../outputs/summary_table_weighted.csv") # Save
 rm(hold, table1w) # Tidy
 
 
-### 4. Meta-regression analysis ###
+### 4. Pooled regression analysis ###
 
 # Part 1: Any type of disruption #
 
@@ -313,7 +368,7 @@ table2 <- tidy(model_any_a_u, conf.int = TRUE) # Save key results
 table2 <- table2[2,] # Extract only healthcare disruption variable
 table2$model <- "All ACS - unadj" # Note model name
 
-model_any_a_a <- svyglm(`Ambulatory Care Sensitive All` ~ imp_disruption_any + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort), data = all_data, family = "binomial", design = wgt) # Adjusted
+model_any_a_a <- svyglm(`Ambulatory Care Sensitive All` ~ imp_disruption_any + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = all_data, family = "binomial", design = wgt) # Adjusted
 hold <- tidy(model_any_a_a, conf.int = TRUE) # Save key results
 hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "All ACS - adj" # Note model name
@@ -326,7 +381,7 @@ hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "Acute ACS - unadj" # Note model name
 table2 <- rbind(table2, hold) # Join to main table
 
-model_any_b_a <- svyglm(`Ambulatory Care Sensitive Acute` ~ imp_disruption_any + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort), data = all_data, family = "binomial", design = wgt) # Adjusted
+model_any_b_a <- svyglm(`Ambulatory Care Sensitive Acute` ~ imp_disruption_any + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = all_data, family = "binomial", design = wgt) # Adjusted
 hold <- tidy(model_any_b_a, conf.int = TRUE) # Save key results
 hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "Acute ACS - adj" # Note model name
@@ -339,20 +394,20 @@ hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "Chronic ACS - unadj" # Note model name
 table2 <- rbind(table2, hold) # Join to main table
 
-model_any_c_a <- svyglm(`Ambulatory Care Sensitive Chronic` ~ imp_disruption_any + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort), data = all_data, family = "binomial", design = wgt) # Adjusted
+model_any_c_a <- svyglm(`Ambulatory Care Sensitive Chronic` ~ imp_disruption_any + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = all_data, family = "binomial", design = wgt) # Adjusted
 hold <- tidy(model_any_c_a, conf.int = TRUE) # Save key results
 hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "Chronic ACS - adj" # Note model name
 table2 <- rbind(table2, hold) # Join to main table
 
-# Model d: Any ambulatory care sensitive conditions
+# Model d: Any ambulatory care sensitive conditions vaccine-prev
 model_any_d_u <- svyglm(`Ambulatory Care Sensitive Vaccine-preventable` ~ imp_disruption_any, data = all_data, family = "binomial", design = wgt) # Unadjusted
 hold <- tidy(model_any_d_u, conf.int = TRUE) # Save key results
 hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "Vaccine preventable ACS - unadj" # Note model name
 table2 <- rbind(table2, hold) # Join to main table
 
-model_any_d_a <- svyglm(`Ambulatory Care Sensitive Vaccine-preventable` ~ imp_disruption_any + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort), data = all_data, family = "binomial", design = wgt) # Adjusted
+model_any_d_a <- svyglm(`Ambulatory Care Sensitive Vaccine-preventable` ~ imp_disruption_any + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = all_data, family = "binomial", design = wgt) # Adjusted
 hold <- tidy(model_any_d_a, conf.int = TRUE) # Save key results
 hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "Vaccine preventable ACS - adj" # Note model name
@@ -365,20 +420,20 @@ hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "EUCS - unadj" # Note model name
 table2 <- rbind(table2, hold) # Join to main table
 
-model_any_e_a <- svyglm(`Emergency Urgent Care Sensitive ` ~ imp_disruption_any + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort), data = all_data, family = "binomial", design = wgt) # Adjusted
+model_any_e_a <- svyglm(`Emergency Urgent Care Sensitive ` ~ imp_disruption_any + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = all_data, family = "binomial", design = wgt) # Adjusted
 hold <- tidy(model_any_e_a, conf.int = TRUE) # Save key results
 hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "EUCS - adj" # Note model name
 table2 <- rbind(table2, hold) # Join to main table
 
-# Model f: Emergency Urgent Sensitive conditions
+# Model f: Total admissions
 model_any_f_u <- svyglm(total_admissions ~ imp_disruption_any, data = all_data, family = "binomial", design = wgt) # Unadjusted
 hold <- tidy(model_any_f_u, conf.int = TRUE) # Save key results
 hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "Any adm - unadj" # Note model name
 table2 <- rbind(table2, hold) # Join to main table
 
-model_any_f_a <- svyglm(total_admissions ~ imp_disruption_any + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort), data = all_data, family = "binomial", design = wgt) # Adjusted
+model_any_f_a <- svyglm(total_admissions ~ imp_disruption_any + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = all_data, family = "binomial", design = wgt) # Adjusted
 hold <- tidy(model_any_f_a, conf.int = TRUE) # Save key results
 hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "Any adm - adj" # Note model name
@@ -386,7 +441,7 @@ table2 <- rbind(table2, hold) # Join to main table
 
 write.csv(table2, "../../outputs/regression_model1.csv") # Save
 rm(table2) # Tidy
-# rm(model_any_a_a, model_any_a_u, model_any_b_a, model_any_b_u, model_any_c_a, model_any_c_u, model_any_d_a, model_any_d_u, model_any_e_a, model_any_e_u, model_any_f_a, model_any_f_u)
+
 
 # Part 2: Type of disruption #
 
@@ -396,7 +451,7 @@ table3 <- tidy(model_type_a_u, conf.int = TRUE) # Save key results
 table3 <- table3[2:4,] # Extract only healthcare disruption variable
 table3$model <- "All ACS - unadj" # Note model name
 
-model_type_a_a <- svyglm(`Ambulatory Care Sensitive All` ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort), data = all_data, family = "binomial", design = wgt) # Adjusted
+model_type_a_a <- svyglm(`Ambulatory Care Sensitive All` ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = all_data, family = "binomial", design = wgt) # Adjusted
 hold <- tidy(model_type_a_a, conf.int = TRUE) # Save key results
 hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "All ACS - adj" # Note model name
@@ -409,7 +464,7 @@ hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "Acute ACS - unadj" # Note model name
 table3 <- rbind(table3, hold) # Join to main table
 
-model_type_b_a <- svyglm(`Ambulatory Care Sensitive Acute` ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort), data = all_data, family = "binomial", design = wgt) # Adjusted
+model_type_b_a <- svyglm(`Ambulatory Care Sensitive Acute` ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = all_data, family = "binomial", design = wgt) # Adjusted
 hold <- tidy(model_type_b_a, conf.int = TRUE) # Save key results
 hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "Acute ACS - adj" # Note model name
@@ -422,7 +477,7 @@ hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "Chronic ACS - unadj" # Note model name
 table3 <- rbind(table3, hold) # Join to main table
 
-model_type_c_a <- svyglm(`Ambulatory Care Sensitive Chronic` ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort), data = all_data, family = "binomial", design = wgt) # Adjusted
+model_type_c_a <- svyglm(`Ambulatory Care Sensitive Chronic` ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = all_data, family = "binomial", design = wgt) # Adjusted
 hold <- tidy(model_type_c_a, conf.int = TRUE) # Save key results
 hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "Chronic ACS - adj" # Note model name
@@ -435,7 +490,7 @@ hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "Vaccine preventable ACS - unadj" # Note model name
 table3 <- rbind(table3, hold) # Join to main table
 
-model_type_d_a <- svyglm(`Ambulatory Care Sensitive Vaccine-preventable` ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort), data = all_data, family = "binomial", design = wgt) # Adjusted
+model_type_d_a <- svyglm(`Ambulatory Care Sensitive Vaccine-preventable` ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = all_data, family = "binomial", design = wgt) # Adjusted
 hold <- tidy(model_type_d_a, conf.int = TRUE) # Save key results
 hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "Vaccine preventable ACS - adj" # Note model name
@@ -448,7 +503,7 @@ hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "EUCS - unadj" # Note model name
 table3 <- rbind(table3, hold) # Join to main table
 
-model_type_e_a <- svyglm(`Emergency Urgent Care Sensitive ` ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort), data = all_data, family = "binomial", design = wgt) # Adjusted
+model_type_e_a <- svyglm(`Emergency Urgent Care Sensitive ` ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = all_data, family = "binomial", design = wgt) # Adjusted
 hold <- tidy(model_type_e_a, conf.int = TRUE) # Save key results
 # If unhappy, then can do manually with confint(model_type_e_a, parm = "disruption_appointments")
 hold <- hold[2:4,] # Extract only healthcare disruption variable
@@ -462,7 +517,7 @@ hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "Any adm - unadj" # Note model name
 table3 <- rbind(table3, hold) # Join to main table
 
-model_type_f_a <- svyglm(total_admissions ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort), data = all_data, family = "binomial", design = wgt) # Adjusted
+model_type_f_a <- svyglm(total_admissions ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = all_data, family = "binomial", design = wgt) # Adjusted
 hold <- tidy(model_type_f_a, conf.int = TRUE) # Save key results
 hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "Any adm - adj" # Note model name
@@ -474,13 +529,10 @@ write.csv(table3, file = "S:/LLC_0009/outputs/regression_model2.csv") # Save
 ### 5. Sensitivity analyses ###
 
 # Part 1: Only events after last survey date
-source("S:/LLC_0009/syntax/R/sensitivity_analysis.R") # Run script for re-running logistic regressions
-source("S:/LLC_0009/syntax/R/sensitivity_survival.R") # Run script for survival analyses
+# source("S:/LLC_0009/syntax/R/sensitivity_analysis.R") # Run script for re-running logistic regressions
+# source("S:/LLC_0009/syntax/R/sensitivity_survival.R") # Run script for survival analyses
 
-## Part 2: Stratify by health status
-# source("S:/LLC_0009/syntax/R/stratify_analysis.R") # Run script
-
-# Part 3: Falsification tests
+# Part 2: Falsification tests
 
 # Model a: Any disruption
 model8a_u <- svyglm(vaccinated ~ imp_disruption_any, data = all_data, family = "binomial", design = wgt) # Unadjusted
@@ -488,7 +540,7 @@ table6 <- tidy(model8a_u, conf.int = TRUE) # Save key results
 table6 <- table6[2,] # Extract only healthcare disruption variable
 table6$model <- "Any - unadj" # Note model name
 
-model8a_a <- svyglm(vaccinated ~ imp_disruption_any + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort), data = all_data, family = "binomial", design = wgt) # Adjusted
+model8a_a <- svyglm(vaccinated ~ imp_disruption_any + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = all_data, family = "binomial", design = wgt) # Adjusted
 hold <- tidy(model8a_a, conf.int = TRUE) # Save key results
 hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "Any - adj" # Note model name
@@ -501,7 +553,7 @@ hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "Type - unadj" # Note model name
 table6 <- rbind(table6, hold) # Join to main table
 
-model8b_a <- svyglm(vaccinated ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort), data = all_data, family = "binomial", design = wgt) # Adjusted
+model8b_a <- svyglm(vaccinated ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = all_data, family = "binomial", design = wgt) # Adjusted
 hold <- tidy(model8b_a, conf.int = TRUE) # Save key results
 hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "Type - adj" # Note model name
@@ -510,3 +562,7 @@ table6 <- rbind(table6, hold) # Join to main table
 write.csv(table6, "../../outputs/falsification_test.csv") # Save
 gc()
 
+
+### 6. Paper revisions ###
+
+source("S:/LLC_0009/syntax/R/revised_analyses.R") # Runs all additional analyses required as part of the revised paper submission

@@ -4,15 +4,20 @@
 ### Part 1. Logistic Regression ###
 ###################################
 
+# Note: Need to run analyses.R first
+
 ## Tidy data ##
 
 # Tidy data and add in updated outcomes
 # load("S:/LLC_0009/data/Cleaned Cohorts/genscot_admissions_post_wave.RData") # Genscot data
 load("S:/LLC_0009/data/Cleaned Cohorts/nhs_hes_post_wave.RData") # HES records
-names(hes)[names(hes) == "llc_0009_stud_id"] <- "LLC_0009_stud_id" # Rename
+# names(hes)[names(hes) == "llc_0009_stud_id"] <- "LLC_0009_stud_id" # Rename (V001)
+names(hes)[names(hes) == "llc_0009_stud_id"] <- "llc_0009_stud_id15" # Rename (V002)
 # outcomes <- rbind(hes, genscot_tot) # Join together all outcome variables
-sensitivity_analyses <- all_data[,c(1:20, 27:49)] # Drop outcome variables
-sensitivity_analyses <- merge(sensitivity_analyses, hes, by = "LLC_0009_stud_id", all.x = TRUE) # Join outcomes onto main dataset
+# sensitivity_analyses <- all_data[,c(1:24, 31:69)] # Drop outcome variables (V001)
+sensitivity_analyses <- all_data[,c(1:64)] # Drop outcome variables (V002)
+# sensitivity_analyses <- merge(sensitivity_analyses, hes, by = "LLC_0009_stud_id", all.x = TRUE) # Join outcomes onto main dataset (V001)
+sensitivity_analyses <- merge(sensitivity_analyses, hes, by = "llc_0009_stud_id15", all.x = TRUE) # Join outcomes onto main dataset (V002)
 rm(hes) # Tidy
 
 # Where missing data for outcomes, these should be 0s
@@ -155,7 +160,7 @@ table2 <- tidy(model_sa_any_a_u, conf.int = TRUE) # Save key results
 table2 <- table2[2,] # Extract only healthcare disruption variable
 table2$model <- "All ACS - unadj" # Note model name
 
-model_sa_any_a_a <- svyglm(`Ambulatory Care Sensitive All` ~ imp_disruption_any + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort), data = sensitivity_analyses, family = "binomial", design = wgt2) # Adjusted
+model_sa_any_a_a <- svyglm(`Ambulatory Care Sensitive All` ~ imp_disruption_any + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = sensitivity_analyses, family = "binomial", design = wgt2) # Adjusted
 hold <- tidy(model_sa_any_a_a, conf.int = TRUE) # Save key results
 hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "All ACS - adj" # Note model name
@@ -168,7 +173,7 @@ hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "Acute ACS - unadj" # Note model name
 table2 <- rbind(table2, hold) # Join to main table
 
-model_sa_any_b_a <- svyglm(`Ambulatory Care Sensitive Acute` ~ imp_disruption_any + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort), data = sensitivity_analyses, family = "binomial", design = wgt2) # Adjusted
+model_sa_any_b_a <- svyglm(`Ambulatory Care Sensitive Acute` ~ imp_disruption_any + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = sensitivity_analyses, family = "binomial", design = wgt2) # Adjusted
 hold <- tidy(model_sa_any_b_a, conf.int = TRUE) # Save key results
 hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "Acute ACS - adj" # Note model name
@@ -181,7 +186,7 @@ hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "Chronic ACS - unadj" # Note model name
 table2 <- rbind(table2, hold) # Join to main table
 
-model_sa_any_c_a <- svyglm(`Ambulatory Care Sensitive Chronic` ~ imp_disruption_any + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort), data = sensitivity_analyses, family = "binomial", design = wgt2) # Adjusted
+model_sa_any_c_a <- svyglm(`Ambulatory Care Sensitive Chronic` ~ imp_disruption_any + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = sensitivity_analyses, family = "binomial", design = wgt2) # Adjusted
 hold <- tidy(model_sa_any_c_a, conf.int = TRUE) # Save key results
 hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "Chronic ACS - adj" # Note model name
@@ -194,7 +199,7 @@ hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "Vaccine preventable ACS - unadj" # Note model name
 table2 <- rbind(table2, hold) # Join to main table
 
-model_sa_any_d_a <- svyglm(`Ambulatory Care Sensitive Vaccine-preventable` ~ imp_disruption_any + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort), data = sensitivity_analyses, family = "binomial", design = wgt2) # Adjusted
+model_sa_any_d_a <- svyglm(`Ambulatory Care Sensitive Vaccine-preventable` ~ imp_disruption_any + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = sensitivity_analyses, family = "binomial", design = wgt2) # Adjusted
 hold <- tidy(model_sa_any_d_a, conf.int = TRUE) # Save key results
 hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "Vaccine preventable ACS - adj" # Note model name
@@ -207,7 +212,7 @@ hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "EUCS - unadj" # Note model name
 table2 <- rbind(table2, hold) # Join to main table
 
-model_sa_any_e_a <- svyglm(`Emergency Urgent Care Sensitive ` ~ imp_disruption_any + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort), data = sensitivity_analyses, family = "binomial", design = wgt2) # Adjusted
+model_sa_any_e_a <- svyglm(`Emergency Urgent Care Sensitive ` ~ imp_disruption_any + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = sensitivity_analyses, family = "binomial", design = wgt2) # Adjusted
 hold <- tidy(model_sa_any_e_a, conf.int = TRUE) # Save key results
 hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "EUCS - adj" # Note model name
@@ -220,7 +225,7 @@ hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "Any adm - unadj" # Note model name
 table2 <- rbind(table2, hold) # Join to main table
 
-model_sa_any_f_a <- svyglm(total_admissions ~ imp_disruption_any + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort), data = sensitivity_analyses, family = "binomial", design = wgt2) # Adjusted
+model_sa_any_f_a <- svyglm(total_admissions ~ imp_disruption_any + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = sensitivity_analyses, family = "binomial", design = wgt2) # Adjusted
 hold <- tidy(model_sa_any_f_a, conf.int = TRUE) # Save key results
 hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "Any adm - adj" # Note model name
@@ -237,7 +242,7 @@ table3 <- tidy(model_sa_type_a_u, conf.int = TRUE) # Save key results
 table3 <- table3[2:4,] # Extract only healthcare disruption variable
 table3$model <- "All ACS - unadj" # Note model name
 
-model_sa_type_a_a <- svyglm(`Ambulatory Care Sensitive All` ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort), data = sensitivity_analyses, family = "binomial", design = wgt2) # Adjusted
+model_sa_type_a_a <- svyglm(`Ambulatory Care Sensitive All` ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = sensitivity_analyses, family = "binomial", design = wgt2) # Adjusted
 hold <- tidy(model_sa_type_a_a, conf.int = TRUE) # Save key results
 hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "All ACS - adj" # Note model name
@@ -250,7 +255,7 @@ hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "Acute ACS - unadj" # Note model name
 table3 <- rbind(table3, hold) # Join to main table
 
-model_sa_type_b_a <- svyglm(`Ambulatory Care Sensitive Acute` ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort), data = sensitivity_analyses, family = "binomial", design = wgt2) # Adjusted
+model_sa_type_b_a <- svyglm(`Ambulatory Care Sensitive Acute` ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = sensitivity_analyses, family = "binomial", design = wgt2) # Adjusted
 hold <- tidy(model_sa_type_b_a, conf.int = TRUE) # Save key results
 hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "Acute ACS - adj" # Note model name
@@ -263,7 +268,7 @@ hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "Chronic ACS - unadj" # Note model name
 table3 <- rbind(table3, hold) # Join to main table
 
-model_sa_type_c_a <- svyglm(`Ambulatory Care Sensitive Chronic` ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort), data = sensitivity_analyses, family = "binomial", design = wgt2) # Adjusted
+model_sa_type_c_a <- svyglm(`Ambulatory Care Sensitive Chronic` ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = sensitivity_analyses, family = "binomial", design = wgt2) # Adjusted
 hold <- tidy(model_sa_type_c_a, conf.int = TRUE) # Save key results
 hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "Chronic ACS - adj" # Note model name
@@ -276,7 +281,7 @@ hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "Vaccine preventable ACS - unadj" # Note model name
 table3 <- rbind(table3, hold) # Join to main table
 
-model_sa_type_d_a <- svyglm(`Ambulatory Care Sensitive Vaccine-preventable` ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort), data = sensitivity_analyses, family = "binomial", design = wgt2) # Adjusted
+model_sa_type_d_a <- svyglm(`Ambulatory Care Sensitive Vaccine-preventable` ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = sensitivity_analyses, family = "binomial", design = wgt2) # Adjusted
 hold <- tidy(model_sa_type_d_a, conf.int = TRUE) # Save key results
 hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "Vaccine preventable ACS - adj" # Note model name
@@ -289,7 +294,7 @@ hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "EUCS - unadj" # Note model name
 table3 <- rbind(table3, hold) # Join to main table
 
-model_sa_type_e_a <- svyglm(`Emergency Urgent Care Sensitive ` ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort), data = sensitivity_analyses, family = "binomial", design = wgt2) # Adjusted
+model_sa_type_e_a <- svyglm(`Emergency Urgent Care Sensitive ` ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = sensitivity_analyses, family = "binomial", design = wgt2) # Adjusted
 hold <- tidy(model_sa_type_e_a, conf.int = TRUE) # Save key results
 # If unhappy, then can do manually with confint(model_sa_type_e_a, parm = "disruption_appointments")
 hold <- hold[2:4,] # Extract only healthcare disruption variable
@@ -303,7 +308,7 @@ hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "Any adm - unadj" # Note model name
 table3 <- rbind(table3, hold) # Join to main table
 
-model_sa_type_f_a <- svyglm(total_admissions ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort), data = sensitivity_analyses, family = "binomial", design = wgt2) # Adjusted
+model_sa_type_f_a <- svyglm(total_admissions ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) + factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = sensitivity_analyses, family = "binomial", design = wgt2) # Adjusted
 hold <- tidy(model_sa_type_f_a, conf.int = TRUE) # Save key results
 hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "Any adm - adj" # Note model name
