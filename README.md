@@ -11,4 +11,4 @@ Having access to the linked data is necessary to understand the experiences of p
 
 For more information see: https://ukllc.ac.uk/data-use-register/llc_0009
 
-(Published paper in the BMJ)[https://doi.org/10.1136/bmj-2023-075133]
+[Published paper in the BMJ](https://doi.org/10.1136/bmj-2023-075133)
