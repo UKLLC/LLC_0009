@@ -321,7 +321,7 @@ assign(name_t1, data_t1) # Assign name to dataset
 rm(data_t1) # Tidy
  
 # Subset required variables
-ukhls <- ukhls_ca_indresp_w_v0001_20211101[, c("LLC_0009_stud_id", "ca_betaindin_xw", "ca_betaindin_xw_t", "psu", "strata", "ca_canceltreat", "ca_nhsnowgp", "ca_nhsnowpm", "ca_nhsnowop", "ca_nhsnowip", "ca_nhsnow111", "ca_chscnowpharm", "ca_chscnowotcm", "ca_chscnowcarer", "ca_chscnowpsy", "ca_sex", "ca_age", "racel_dv", "ca_gor_dv", "ca_sempderived", "ca_surveystart", "ca_hadsymp", "ca_testresult", "ca_hcond_cv96")] # These are in order - id, sample weights (4 vars - first two weights depend on survey response method so online v telephone), disruption experienced (10 vars - treatment was cancelled, could access a GP, medications, outpatients, inpatients, NHS 111, pharmacy, otc-medications, carer, counselling), sex, age, race, region, employed, survey date, had covid symptoms, tested for covid, has health condition
+ukhls <- ukhls_ca_indresp_w_v0001_20211101[, c("LLC_0009_stud_id", "ca_betaindin_xw", "ca_betaindin_xw_t", "psu", "strata", "ca_canceltreat", "ca_nhsnowgp", "ca_nhsnowpm", "ca_nhsnowop", "ca_nhsnowip", "ca_nhsnow111", "ca_chscnowpharm", "ca_chscnowotcm", "ca_chscnowcarer", "ca_chscnowpsy", "ca_sex", "ca_age", "racel_dv", "ca_gor_dv", "ca_sempderived", "ca_surveystart", "ca_hadsymp", "ca_testresult", "ca_hcond_cv1", "ca_hcond_cv13", "ca_hcond_cv14", "ca_hcond_cv16")] # These are in order - id, sample weights (4 vars - first two weights depend on survey response method so online v telephone), disruption experienced (10 vars - treatment was cancelled, could access a GP, medications, outpatients, inpatients, NHS 111, pharmacy, otc-medications, carer, counselling), sex, age, race, region, employed, survey date, had covid symptoms, tested for covid, has health conditions (asthma, cancer, diabetes, hypertension)
 rm(ukhls_ca_indresp_w_v0001_20211101)
 
 # Rename variables
@@ -340,7 +340,7 @@ assign(name_t1, data_t1) # Assign name to dataset
 rm(data_t1) # Tidy
 
 # Subset required variables
-ukhls_cb_indresp_w_v0001_20211101 <- ukhls_cb_indresp_w_v0001_20211101[, c("LLC_0009_stud_id", "cb_betaindin_lw", "cb_betaindin_xw", "cb_betaindin_xw_t", "psu", "strata", "cb_canceltreat", "cb_nhsnowgp", "cb_nhsnowpm", "cb_nhsnowop", "cb_nhsnowip", "cb_nhsnow111", "cb_chscnowpharm", "cb_chscnowotcm", "cb_chscnowcarer", "cb_chscnowpsy", "cb_sex", "cb_age", "racel_dv", "cb_gor_dv", "cb_sempderived", "cb_surveystart", "cb_hadsymp", "cb_hadcovid", "cb_testresult", "cb_ff_hcondhas", "cb_hsownd_cv")] # These are in order - id, sample weights (5 vars - two weights depend on survey response method so online v telephone), disruption experienced (10 vars - treatment was cancelled, could access a GP, medications, outpatients, inpatients, NHS 111, pharmacy, otc-medications, carer, counselling), sex, age, race, region, employed, survey date, had covid symptoms/covid itself, tested for covid, has health condition, owns house
+ukhls_cb_indresp_w_v0001_20211101 <- ukhls_cb_indresp_w_v0001_20211101[, c("LLC_0009_stud_id", "cb_betaindin_lw", "cb_betaindin_xw", "cb_betaindin_xw_t", "psu", "strata", "cb_canceltreat", "cb_nhsnowgp", "cb_nhsnowpm", "cb_nhsnowop", "cb_nhsnowip", "cb_nhsnow111", "cb_chscnowpharm", "cb_chscnowotcm", "cb_chscnowcarer", "cb_chscnowpsy", "cb_sex", "cb_age", "racel_dv", "cb_gor_dv", "cb_sempderived", "cb_surveystart", "cb_hadsymp", "cb_hadcovid", "cb_testresult", "cb_hcond_cv1", "cb_hcond_cv13", "cb_hcond_cv14", "cb_hcond_cv16", "cb_hsownd_cv")] # These are in order - id, sample weights (5 vars - two weights depend on survey response method so online v telephone), disruption experienced (10 vars - treatment was cancelled, could access a GP, medications, outpatients, inpatients, NHS 111, pharmacy, otc-medications, carer, counselling), sex, age, race, region, employed, survey date, had covid symptoms/covid itself, tested for covid, has health conditions (asthma, cancer, diabetes, hypertension), owns house
 
 # Rename variables
 names(ukhls_cb_indresp_w_v0001_20211101)[names(ukhls_cb_indresp_w_v0001_20211101) == "psu"] <- "cb_psu"
@@ -362,7 +362,7 @@ assign(name_t1, data_t1) # Assign name to dataset
 rm(data_t1) # Tidy
 
 # Subset required variables
-ukhls_cc_indresp_w_v0001_20211101 <- ukhls_cc_indresp_w_v0001_20211101[, c("LLC_0009_stud_id", "cc_betaindin_lw", "cc_betaindin_xw", "psu", "strata", "cc_canceltreat", "cc_nhsnowgp", "cc_nhsnowpm", "cc_nhsnowop", "cc_nhsnowip", "cc_nhsnow111", "cc_chscnowpharm", "cc_chscnowotcm", "cc_chscnowcarer", "cc_chscnowpsy", "cc_sex_cv", "cc_age", "racel_dv", "cc_gor_dv", "cc_sempderived", "cc_surveystart", "cc_hadsymp", "cc_hadcovid", "cc_testresult", "cc_ff_hcondhas")] # These are in order - id, sample weights (5 vars), disruption experienced (10 vars - treatment was cancelled, could access a GP, medications, outpatients, inpatients, NHS 111, pharmacy, otc-medications, carer, counselling), sex, age, race, region, employed, survey date, had covid symptoms/covid itself, tested for covid, has health condition
+ukhls_cc_indresp_w_v0001_20211101 <- ukhls_cc_indresp_w_v0001_20211101[, c("LLC_0009_stud_id", "cc_betaindin_lw", "cc_betaindin_xw", "psu", "strata", "cc_canceltreat", "cc_nhsnowgp", "cc_nhsnowpm", "cc_nhsnowop", "cc_nhsnowip", "cc_nhsnow111", "cc_chscnowpharm", "cc_chscnowotcm", "cc_chscnowcarer", "cc_chscnowpsy", "cc_sex_cv", "cc_age", "racel_dv", "cc_gor_dv", "cc_sempderived", "cc_surveystart", "cc_hadsymp", "cc_hadcovid", "cc_testresult", "cc_hcond_cv1", "cc_hcond_cv13", "cc_hcond_cv14", "cc_hcond_cv16")] # These are in order - id, sample weights (5 vars), disruption experienced (10 vars - treatment was cancelled, could access a GP, medications, outpatients, inpatients, NHS 111, pharmacy, otc-medications, carer, counselling), sex, age, race, region, employed, survey date, had covid symptoms/covid itself, tested for covid, has health conditions (asthma, cancer, diabetes, hypertension)
 
 # Rename variables
 names(ukhls_cc_indresp_w_v0001_20211101)[names(ukhls_cc_indresp_w_v0001_20211101) == "psu"] <- "cc_psu"
@@ -384,7 +384,7 @@ assign(name_t1, data_t1) # Assign name to dataset
 rm(data_t1) # Tidy
 
 # Subset required variables
-ukhls_cd_indresp_w_v0001_20211101 <- ukhls_cd_indresp_w_v0001_20211101[, c("LLC_0009_stud_id", "cd_betaindin_lw", "cd_betaindin_xw", "psu", "strata", "cd_canceltreat", "cd_nhsnowgp", "cd_nhsnowpm", "cd_nhsnowop", "cd_nhsnowip", "cd_nhsnow111", "cd_chscnowpharm", "cd_chscnowotcm", "cd_chscnowcarer", "cd_chscnowpsy", "cd_sex_cv", "cd_age", "racel_dv", "cd_gor_dv", "cd_sempderived", "cd_surveystart", "cd_hadsymp", "cd_hadcovid", "cd_testresult", "cd_ff_hcondhas", "cd_hsownd_cv")] # These are in order - id, sample weights (5 vars), disruption experienced (10 vars - treatment was cancelled, could access a GP, medications, outpatients, inpatients, NHS 111, pharmacy, otc-medications, carer, counselling), sex, age, race, region, employed, survey date, had covid symptoms/covid itself, tested for covid, has health condition, house owned
+ukhls_cd_indresp_w_v0001_20211101 <- ukhls_cd_indresp_w_v0001_20211101[, c("LLC_0009_stud_id", "cd_betaindin_lw", "cd_betaindin_xw", "psu", "strata", "cd_canceltreat", "cd_nhsnowgp", "cd_nhsnowpm", "cd_nhsnowop", "cd_nhsnowip", "cd_nhsnow111", "cd_chscnowpharm", "cd_chscnowotcm", "cd_chscnowcarer", "cd_chscnowpsy", "cd_sex_cv", "cd_age", "racel_dv", "cd_gor_dv", "cd_sempderived", "cd_surveystart", "cd_hadsymp", "cd_hadcovid", "cd_testresult", "cd_hcond_cv1", "cd_hcond_cv13", "cd_hcond_cv14", "cd_hcond_cv16", "cd_hsownd_cv")] # These are in order - id, sample weights (5 vars), disruption experienced (10 vars - treatment was cancelled, could access a GP, medications, outpatients, inpatients, NHS 111, pharmacy, otc-medications, carer, counselling), sex, age, race, region, employed, survey date, had covid symptoms/covid itself, tested for covid, has health conditions (asthma, cancer, diabetes, hypertension), house owned
 
 # Rename variables
 names(ukhls_cd_indresp_w_v0001_20211101)[names(ukhls_cd_indresp_w_v0001_20211101) == "psu"] <- "cd_psu"
@@ -420,7 +420,7 @@ ukhls_ce_indresp_w_v0001_1_20211101 <- merge(ukhls_ce_indresp_w_v0001_1_20211101
 rm(ukhls_ce_indresp_w_v0001_2_20211101) # Drop to save space
 
 # Subset required variables
-ukhls_ce_indresp_w_v0001_1_20211101 <- ukhls_ce_indresp_w_v0001_1_20211101[, c("LLC_0009_stud_id", "ce_betaindin_lw", "ce_betaindin_xw", "psu", "strata", "ce_canceltreat", "ce_nhsnowgp", "ce_nhsnowpm", "ce_nhsnowop", "ce_nhsnowip", "ce_nhsnow111", "ce_chscnowpharm", "ce_chscnowotcm", "ce_chscnowcarer", "ce_chscnowpsy", "ce_sex_cv", "ce_age", "racel_dv", "ce_gor_dv", "ce_sempderived", "ce_surveystart", "ce_hadsymp", "ce_hadcovid", "ce_testresult", "ce_ff_hcondhas", "ce_hsownd_cv")] # These are in order - id, sample weights (5 vars), disruption experienced (10 vars - treatment was cancelled, could access a GP, medications, outpatients, inpatients, NHS 111, pharmacy, otc-medications, carer, counselling), sex, age, race, region, employed, survey date, had covid symptoms/covid itself, tested for covid, has health condition, house owned
+ukhls_ce_indresp_w_v0001_1_20211101 <- ukhls_ce_indresp_w_v0001_1_20211101[, c("LLC_0009_stud_id", "ce_betaindin_lw", "ce_betaindin_xw", "psu", "strata", "ce_canceltreat", "ce_nhsnowgp", "ce_nhsnowpm", "ce_nhsnowop", "ce_nhsnowip", "ce_nhsnow111", "ce_chscnowpharm", "ce_chscnowotcm", "ce_chscnowcarer", "ce_chscnowpsy", "ce_sex_cv", "ce_age", "racel_dv", "ce_gor_dv", "ce_sempderived", "ce_surveystart", "ce_hadsymp", "ce_hadcovid", "ce_testresult", "ce_hcond_cv1", "ce_hcond_cv13", "ce_hcond_cv14", "ce_hcond_cv16", "ce_hsownd_cv")] # These are in order - id, sample weights (5 vars), disruption experienced (10 vars - treatment was cancelled, could access a GP, medications, outpatients, inpatients, NHS 111, pharmacy, otc-medications, carer, counselling), sex, age, race, region, employed, survey date, had covid symptoms/covid itself, tested for covid, has health conditions (asthma, cancer, diabetes, hypertension), house owned
 
 # Rename variables
 names(ukhls_ce_indresp_w_v0001_1_20211101)[names(ukhls_ce_indresp_w_v0001_1_20211101) == "psu"] <- "ce_psu"
@@ -442,7 +442,7 @@ assign(name_t1, data_t1) # Assign name to dataset
 rm(data_t1) # Tidy
 
 # Subset required variables
-ukhls_cf_indresp_w_v0001_20211101 <- ukhls_cf_indresp_w_v0001_20211101[, c("LLC_0009_stud_id", "cf_betaindin_lw", "cf_betaindin_lw_t1", "cf_betaindin_lw_t2", "cf_betaindin_xw", "cf_betaindin_xw_t", "psu", "strata", "cf_canceltreat", "cf_nhsnowgp2", "cf_nhsnowpm2", "cf_nhsnowop2", "cf_nhsnowip2", "cf_nhsnow1112", "cf_chscnowpharm2", "cf_chscnowotcm2", "cf_chscnowcarer2", "cf_chscnowpsy2", "cf_sex_cv", "cf_age", "racel_dv", "cf_gor_dv", "cf_sempderived", "cf_surveystart", "cf_hadsymp", "cf_hadcovid", "cf_testresult", "cf_ff_hcondhas", "cf_hsownd_cv", "cf_scsf1")] # These are in order - id, sample weights (5 vars), disruption experienced (10 vars - treatment was cancelled, could access a GP, medications, outpatients, inpatients, NHS 111, pharmacy, otc-medications, carer, counselling), sex, age, race, region, employed, survey date, had covid symptoms/covid itself, tested for covid, has health condition, house owned, health status
+ukhls_cf_indresp_w_v0001_20211101 <- ukhls_cf_indresp_w_v0001_20211101[, c("LLC_0009_stud_id", "cf_betaindin_lw", "cf_betaindin_lw_t1", "cf_betaindin_lw_t2", "cf_betaindin_xw", "cf_betaindin_xw_t", "psu", "strata", "cf_canceltreat", "cf_nhsnowgp2", "cf_nhsnowpm2", "cf_nhsnowop2", "cf_nhsnowip2", "cf_nhsnow1112", "cf_chscnowpharm2", "cf_chscnowotcm2", "cf_chscnowcarer2", "cf_chscnowpsy2", "cf_sex_cv", "cf_age", "racel_dv", "cf_gor_dv", "cf_sempderived", "cf_surveystart", "cf_hadsymp", "cf_hadcovid", "cf_testresult", "cf_hsownd_cv", "cf_scsf1")] # These are in order - id, sample weights (5 vars), disruption experienced (10 vars - treatment was cancelled, could access a GP, medications, outpatients, inpatients, NHS 111, pharmacy, otc-medications, carer, counselling), sex, age, race, region, employed, survey date, had covid symptoms/covid itself, tested for covid, house owned, health status. Does not have health conditions within it.
 
 # Rename variables
 names(ukhls_cf_indresp_w_v0001_20211101)[names(ukhls_cf_indresp_w_v0001_20211101) == "psu"] <- "cf_psu"
@@ -464,7 +464,7 @@ assign(name_t1, data_t1) # Assign name to dataset
 rm(data_t1) # Tidy
 
 # Subset required variables
-ukhls_cg_indresp_w_v0001_20211101 <- ukhls_cg_indresp_w_v0001_20211101[, c("LLC_0009_stud_id", "cg_betaindin_lw", "cg_betaindin_xw", "psu", "strata", "cg_canceltreat", "cg_nhsnowgp2", "cg_nhsnowpm2", "cg_nhsnowop2", "cg_nhsnowip2", "cg_nhsnow1112", "cg_chscnowpharm2", "cg_chscnowotcm2", "cg_chscnowcarer2", "cg_chscnowpsy2", "cg_sex_cv", "cg_age", "racel_dv", "cg_gor_dv", "cg_sempderived", "cg_surveystart", "cg_hadsymp", "cg_hadcovid",  "cg_ff_hcondhas", "cg_hsownd_cv", "cg_scsf1")] # These are in order - id, sample weights (5 vars), disruption experienced (10 vars - treatment was cancelled, could access a GP, medications, outpatients, inpatients, NHS 111, pharmacy, otc-medications, carer, counselling), sex, age, race, region, employed, survey date, had covid symptoms/covid itself, has health condition, house owned, health status
+ukhls_cg_indresp_w_v0001_20211101 <- ukhls_cg_indresp_w_v0001_20211101[, c("LLC_0009_stud_id", "cg_betaindin_lw", "cg_betaindin_xw", "psu", "strata", "cg_canceltreat", "cg_nhsnowgp2", "cg_nhsnowpm2", "cg_nhsnowop2", "cg_nhsnowip2", "cg_nhsnow1112", "cg_chscnowpharm2", "cg_chscnowotcm2", "cg_chscnowcarer2", "cg_chscnowpsy2", "cg_sex_cv", "cg_age", "racel_dv", "cg_gor_dv", "cg_sempderived", "cg_surveystart", "cg_hadsymp", "cg_hadcovid",  "cg_hsownd_cv", "cg_scsf1")] # These are in order - id, sample weights (5 vars), disruption experienced (10 vars - treatment was cancelled, could access a GP, medications, outpatients, inpatients, NHS 111, pharmacy, otc-medications, carer, counselling), sex, age, race, region, employed, survey date, had covid symptoms/covid itself, house owned, health status. No health conditions.
 
 # Rename variables
 names(ukhls_cg_indresp_w_v0001_20211101)[names(ukhls_cg_indresp_w_v0001_20211101) == "psu"] <- "cg_psu"
@@ -486,7 +486,7 @@ assign(name_t1, data_t1) # Assign name to dataset
 rm(data_t1) # Tidy
 
 # Subset required variables
-ukhls_ch_indresp_w_v0001_20211101 <- ukhls_ch_indresp_w_v0001_20211101[, c("LLC_0009_stud_id", "ch_betaindin_lw", "ch_betaindin_xw", "psu", "strata", "ch_canceltreat", "ch_nhsnowgp2", "ch_nhsnowpm2", "ch_nhsnowop2", "ch_nhsnowip2", "ch_nhsnow1112", "ch_chscnowpharm2", "ch_chscnowotcm2", "ch_chscnowcarer2", "ch_chscnowpsy2", "ch_sex_cv", "ch_age", "racel_dv", "ch_gor_dv", "ch_sempderived", "ch_surveystart", "ch_hadsymp", "ch_hadcovid",  "ch_ff_hcondhas", "ch_hsownd_cv", "ch_scsf1")] # These are in order - id, sample weights (5 vars), disruption experienced (10 vars - treatment was cancelled, could access a GP, medications, outpatients, inpatients, NHS 111, pharmacy, otc-medications, carer, counselling), sex, age, race, region, employed, survey date, had covid symptoms/covid itself, has health condition, house owned, health status
+ukhls_ch_indresp_w_v0001_20211101 <- ukhls_ch_indresp_w_v0001_20211101[, c("LLC_0009_stud_id", "ch_betaindin_lw", "ch_betaindin_xw", "psu", "strata", "ch_canceltreat", "ch_nhsnowgp2", "ch_nhsnowpm2", "ch_nhsnowop2", "ch_nhsnowip2", "ch_nhsnow1112", "ch_chscnowpharm2", "ch_chscnowotcm2", "ch_chscnowcarer2", "ch_chscnowpsy2", "ch_sex_cv", "ch_age", "racel_dv", "ch_gor_dv", "ch_sempderived", "ch_surveystart", "ch_hadsymp", "ch_hadcovid",  "ch_hsownd_cv", "ch_scsf1")] # These are in order - id, sample weights (5 vars), disruption experienced (10 vars - treatment was cancelled, could access a GP, medications, outpatients, inpatients, NHS 111, pharmacy, otc-medications, carer, counselling), sex, age, race, region, employed, survey date, had covid symptoms/covid itself, house owned, health status. No health conditions
 
 # Rename variables
 names(ukhls_ch_indresp_w_v0001_20211101)[names(ukhls_ch_indresp_w_v0001_20211101) == "psu"] <- "ch_psu"
@@ -586,6 +586,25 @@ ukhls$covid <- NA # Create blank variable
 ukhls$covid[ukhls$ca_hadsymp != -1 | ukhls$cb_hadsymp != -1 | ukhls$cc_hadsymp != -1 | ukhls$cd_hadsymp != -1 | ukhls$ce_hadsymp != -1 | ukhls$cf_hadsymp != -1 | ukhls$cg_hadsymp != -1 | ukhls$ch_hadsymp != -1] <- 0 # have data present for whether had COVID-19 symptoms (to act as a baseline to overwrite on the next step)
 ukhls$covid[(ukhls$cb_hadcovid >= -1 & ukhls$cb_hadcovid <= 3) | (ukhls$cc_hadcovid >= -1 & ukhls$cc_hadcovid <= 3) | (ukhls$cd_hadcovid >= -1 & ukhls$cd_hadcovid <= 3) | (ukhls$ce_hadcovid >= -1 & ukhls$ce_hadcovid <= 3) | (ukhls$cf_hadcovid >= -1 & ukhls$cf_hadcovid <= 3) | (ukhls$cg_hadcovid >= -1 & ukhls$cg_hadcovid <= 3) | (ukhls$ch_hadcovid >= -1 & ukhls$ch_hadcovid <= 3)] <- 1 # If they report they likely had COVID-19, we treat this as a case (not present in wave a) - this measure is limited but we may not use it in the main analysis therefore
 
+# Asthma
+ukhls$asthma <- NA # Create blank variable
+ukhls$asthma[ukhls$ca_hcond_cv1 == 0 | ukhls$cb_hcond_cv1 == 0 | ukhls$cc_hcond_cv1 == 0 | ukhls$cd_hcond_cv1 == 0 | ukhls$ce_hcond_cv1 == 0] <- 0 # Reported no at some point
+ukhls$asthma[ukhls$ca_hcond_cv1 == 1 | ukhls$cb_hcond_cv1 == 1 | ukhls$cc_hcond_cv1 == 1 | ukhls$cd_hcond_cv1 == 1 | ukhls$ce_hcond_cv1 == 1] <- 1 # Has reported condition at some point (overwrites the nos)
+
+# Cancer
+ukhls$cancer <- NA # Create blank variable
+ukhls$cancer[ukhls$ca_hcond_cv13 == 0 | ukhls$cb_hcond_cv13 == 0 | ukhls$cc_hcond_cv13 == 0 | ukhls$cd_hcond_cv13 == 0 | ukhls$ce_hcond_cv13 == 0] <- 0 # Reported no at some point
+ukhls$cancer[ukhls$ca_hcond_cv13 == 1 | ukhls$cb_hcond_cv13 == 1 | ukhls$cc_hcond_cv13 == 1 | ukhls$cd_hcond_cv13 == 1 | ukhls$ce_hcond_cv13 == 1] <- 1 # Has reported condition at some point
+
+# Diabetes
+ukhls$diabetes <- NA # Create blank variable
+ukhls$diabetes[ukhls$ca_hcond_cv14 == 0 | ukhls$cb_hcond_cv14 == 0 | ukhls$cc_hcond_cv14 == 0 | ukhls$cd_hcond_cv14 == 0 | ukhls$ce_hcond_cv14 == 0] <- 0 # Reported no at some point
+ukhls$diabetes[ukhls$ca_hcond_cv14 == 1 | ukhls$cb_hcond_cv14 == 1 | ukhls$cc_hcond_cv14 == 1 | ukhls$cd_hcond_cv14 == 1 | ukhls$ce_hcond_cv14 == 1] <- 1 # Has reported condition at some point
+
+# Hypertension
+ukhls$hypertension <- NA # Create blank variable
+ukhls$hypertension[ukhls$ca_hcond_cv16 == 0 | ukhls$cb_hcond_cv16 == 0 | ukhls$cc_hcond_cv16 == 0 | ukhls$cd_hcond_cv16 == 0 | ukhls$ce_hcond_cv16 == 0] <- 0 # Reported no at some point
+ukhls$hypertension[ukhls$ca_hcond_cv16 == 1 | ukhls$cb_hcond_cv16 == 1 | ukhls$cc_hcond_cv16 == 1 | ukhls$cd_hcond_cv16 == 1 | ukhls$ce_hcond_cv16 == 1] <- 1 # Has reported condition at some point
 
 # Healthcare disruption
 # This is a bit complicated to say the least
@@ -652,7 +671,7 @@ ukhls$fpc <- 0 # Set as 0 since missing
 
 # Subset variables required
 ukhls$date <- format(as.Date(ukhls$ch_surveystart, format = "%Y-%m-%d %H:%M:%S"), "%d/%m/%Y") #  Save date as latest wave (only 6 NAs so I can't be bothered to check if they are covered elsewhere since other waves have larger NAs e.g., 1243 in wave g) abd convert to same format as other survey dates dd/mm/yyyy
-ukhls <- ukhls[, c("LLC_0009_stud_id", "date", "sex", "age", "ethnicity", "region", "country", "tenure", "education", "general_health", "covid", "disruption_appointments", "disruption_medications", "disruption_procedures", "disruption_any", "weight", "psu", "strata", "fpc")] # Subset variables
+ukhls <- ukhls[, c("LLC_0009_stud_id", "date", "sex", "age", "ethnicity", "region", "country", "tenure", "education", "general_health", "covid", "asthma", "cancer", "diabetes", "hypertension", "disruption_appointments", "disruption_medications", "disruption_procedures", "disruption_any", "weight", "psu", "strata", "fpc")] # Subset variables
 
 
 # Save #
@@ -686,7 +705,7 @@ assign(name_t1, data_t1) # Assign name to dataset
 rm(data_t1) # Tidy
 
 # Subset required variables
-nshd46 <- nshd46_covidw1webpostal_v0001_20211101[, c("LLC_0009_stud_id", "cw1_surgcan_10", "cw1_surgcan_11", "cw1_surgcan_12", "cw1_surgcan_13", "cw1_surgcan_14", "cw1_surgcan_15", "cw1_sext", "cw1_combwt", "cw1_econactivityb", "cw1_econactivityd", "cw1_covid19", "cw1_ghq")] # These are in order - id, disruption experienced (6 vars), sex, survey weight, economic activity (2x), if have had COVID-19, self-rated health status, 
+nshd46 <- nshd46_covidw1webpostal_v0001_20211101[, c("LLC_0009_stud_id", "cw1_surgcan_10", "cw1_surgcan_11", "cw1_surgcan_12", "cw1_surgcan_13", "cw1_surgcan_14", "cw1_surgcan_15", "cw1_sext", "cw1_combwt", "cw1_econactivityb", "cw1_econactivityd", "cw1_covid19", "cw1_ghq", "cw1_lli_3", "cw1_lli_1", "cw1_lli_6", "cw1_lli_9")] # These are in order - id, disruption experienced (6 vars), sex, survey weight, economic activity (2x), if have had COVID-19, self-rated health status, health conditions (asthma, cancer, diabetes, hypertension)
 rm(nshd46_covidw1webpostal_v0001_20211101) 
 
 
@@ -701,7 +720,7 @@ assign(name_t1, data_t1) # Assign name to dataset
 rm(data_t1) # Tidy
 
 # Subset required variables
-nshd46_covidw2webpostal_v0001_20211101 <- nshd46_covidw2webpostal_v0001_20211101[, c("LLC_0009_stud_id", "cw2_pmeddif", "cw2_apphosp_1", "cw2_apphosp_2", "cw2_apphosp_3", "cw2_apphad", "cw2_apphadh", "cw2_apphadt", "cw2_appnot", "cw2_apphads", "cw2_apphadsh", "cw2_appnots", "cw2_appmen", "cw2_appmenhad", "cw2_appmenhadh", "cw2_apphadth", "cw2_appnoth", "cw2_psex", "cw2_combwt", "cw2_econactivityb", "cw2_econactivityd", "cw2_peconactivityb", "cw2_peconactivityd", "cw2_covid19", "cw2_ghq", "cw2_enddated", "cw2_enddatem")] # These are id, healthcare disruption (difficulty getting medicines, then cancelled healthcare experiences but this is tricky so see below note for explanation), sex, survey weight, economic activity (current and previous; two measures for each), if had covid-19 and self rated health, date of survey (day and month)
+nshd46_covidw2webpostal_v0001_20211101 <- nshd46_covidw2webpostal_v0001_20211101[, c("LLC_0009_stud_id", "cw2_pmeddif", "cw2_apphosp_1", "cw2_apphosp_2", "cw2_apphosp_3", "cw2_apphad", "cw2_apphadh", "cw2_apphadt", "cw2_appnot", "cw2_apphads", "cw2_apphadsh", "cw2_appnots", "cw2_appmen", "cw2_appmenhad", "cw2_appmenhadh", "cw2_apphadth", "cw2_appnoth", "cw2_psex", "cw2_combwt", "cw2_econactivityb", "cw2_econactivityd", "cw2_peconactivityb", "cw2_peconactivityd", "cw2_covid19", "cw2_ghq", "cw2_enddated", "cw2_enddatem", "cw2_lli1_3", "cw2_lli1_1", "cw2_lli1_6", "cw2_lli1_9")] # These are id, healthcare disruption (difficulty getting medicines, then cancelled healthcare experiences but this is tricky so see below note for explanation), sex, survey weight, economic activity (current and previous; two measures for each), if had covid-19 and self rated health, date of survey (day and month), health conditions (asthma, cancer, diabetes, hypertension)
 
 # Note: cw2_apphosp_1 = did you have a hospital apointment, so select only those and then define disruption as cw2_apphad == No (did not have appointment), or cw2_apphadh == appointment was delayed. BUT also cw2_appnot gives reasons for not having the appointment - might be easier. Need to do this for each variable? (does not apply to medications variable):
 # apphad = hospital consultation, investigation or treatment, apphads = surgery, and appmen = cbt, counselling or psychological therapy
@@ -723,7 +742,7 @@ assign(name_t1, data_t1) # Assign name to dataset
 rm(data_t1) # Tidy
 
 # Subset required variables
-nshd46_covidw3web_v0001_20211101 <- nshd46_covidw3web_v0001_20211101[, c("LLC_0009_stud_id", "cw3_pmeddif", "cw3_appcand", "cw3_appcant_1", "cw3_appcant_2", "cw3_appcant_3", "cw3_appcant_4", "cw3_psex", "cw3_combwt", "cw3_econactivityd", "cw3_peconactivityd", "cw3_covid19", "cw3_ghq", "cw3_enddated", "cw3_enddatem")] # These are id, healthcare disruption (difficulty getting medicines, cancelled or delayed medical appointment overall then 4 types), sex, survey weight, economic activity (current and previous), if had covid-19 and self rated health, date of survey (day and month)
+nshd46_covidw3web_v0001_20211101 <- nshd46_covidw3web_v0001_20211101[, c("LLC_0009_stud_id", "cw3_pmeddif", "cw3_appcand", "cw3_appcant_1", "cw3_appcant_2", "cw3_appcant_3", "cw3_appcant_4", "cw3_psex", "cw3_combwt", "cw3_econactivityd", "cw3_peconactivityd", "cw3_covid19", "cw3_ghq", "cw3_enddated", "cw3_enddatem", "cw3_lli1_3", "cw3_lli1_1", "cw3_lli1_6", "cw3_lli1_9")] # These are id, healthcare disruption (difficulty getting medicines, cancelled or delayed medical appointment overall then 4 types), sex, survey weight, economic activity (current and previous), if had covid-19 and self rated health, date of survey (day and month), health conditions (asthma, cancer, diabetes, hypertension)
 
 
 # Join onto main data
@@ -799,6 +818,22 @@ nshd46$covid <- NA # Create blank variable
 nshd46$covid[nshd46$cw1_covid19 > 2 | nshd46$cw2_covid19 > 2 | nshd46$cw3_covid19 > 2] <- "No" # Opposite
 nshd46$covid[nshd46$cw1_covid19 < 3 | nshd46$cw2_covid19 < 3 | nshd46$cw3_covid19 < 3] <- "Yes" # Reported they had COVID-19 in any wave
 
+# Asthma
+nshd46$asthma <- 0 # Create blank variable - hard to tell who has missing data though due to set up
+nshd46$asthma[nshd46$cw1_lli_3 == 1 | nshd46$cw2_lli1_3 == 1 | nshd46$cw3_lli1_3 == 1] <- 1 # Has condition
+
+# Cancer
+nshd46$cancer <- 0 # Create blank variable - hard to tell who has missing data though due to set up
+nshd46$cancer[nshd46$cw1_lli_1 == 1 | nshd46$cw2_lli1_1 == 1 | nshd46$cw3_lli1_1 == 1] <- 1 # Has condition
+
+# Diabetes
+nshd46$diabetes <- 0 # Create blank variable - hard to tell who has missing data though due to set up
+nshd46$diabetes[nshd46$cw1_lli_6 == 1 | nshd46$cw2_lli1_6 == 1 | nshd46$cw3_lli1_6 == 1] <- 1 # Has condition
+
+# Hypertension
+nshd46$hypertension <- 0 # Create blank variable - hard to tell who has missing data though due to set up
+nshd46$hypertension[nshd46$cw1_lli_9 == 1 | nshd46$cw2_lli1_9 == 1 | nshd46$cw3_lli1_9 == 1] <- 1 # Has condition
+
 # Healthcare disruption
 # Wave 2 is a bit complicated to say the least
 # var_lab(nshd46$cw1_surgcan_10) #Helpful in looking up variable descriptions
@@ -832,7 +867,7 @@ nshd46$fpc <- 0 # Set as 0
 # Subset variables required
 nshd46$date <- paste0(nshd46$cw3_enddated, "/", nshd46$cw3_enddatem, "/2021", sep = "") #  Save date as latest wave
 # survey weight???
-nshd46 <- nshd46[, c("LLC_0009_stud_id", "date", "sex", "age", "ethnicity", "region", "country", "tenure", "education", "general_health", "covid", "disruption_appointments", "disruption_medications", "disruption_procedures", "disruption_any", "weight", "psu", "strata", "fpc")] # Subset variables
+nshd46 <- nshd46[, c("LLC_0009_stud_id", "date", "sex", "age", "ethnicity", "region", "country", "tenure", "education", "general_health", "covid", "asthma", "cancer", "diabetes", "hypertension", "disruption_appointments", "disruption_medications", "disruption_procedures", "disruption_any", "weight", "psu", "strata", "fpc")] # Subset variables
 
 
 # Save #
@@ -874,7 +909,7 @@ assign(name_t1, data_t1) # Assign name to dataset
 rm(data_t1) # Tidy
 
 # Subset required variables
-nextstep <- nextstep_covid_w1_v0001_20211101[, c("LLC_0009_stud_id", "cw1_surgcan", "cw1_psex", "cw1_combwt", "cw1_samppsu", "cw1_sampstratum", "cw1_econactivityb", "cw1_econactivityd", "cw1_covid19", "cw1_ghq", "cw1_region", "cw1_nssec2010an", "cw1_enddate", "cw1_lli_17")] # These are in order - id, disruption experienced (surgery), sex, survey weight, economic activity (2x), if have had COVID-19, self-rated health status, region, NS-SeC, date, long-standing illness
+nextstep <- nextstep_covid_w1_v0001_20211101[, c("LLC_0009_stud_id", "cw1_surgcan", "cw1_psex", "cw1_combwt", "cw1_samppsu", "cw1_sampstratum", "cw1_econactivityb", "cw1_econactivityd", "cw1_covid19", "cw1_ghq", "cw1_region", "cw1_nssec2010an", "cw1_enddate", "cw1_lli_3", "cw1_lli_1", "cw1_lli_6", "cw1_lli_9")] # These are in order - id, disruption experienced (6 vars), sex, survey weight, economic activity (2x), if have had COVID-19, self-rated health status, health conditions (asthma, cancer, diabetes, hypertension)
 rm(nextstep_covid_w1_v0001_20211101) 
 
 # Tidy variables (to do)
@@ -891,7 +926,7 @@ assign(name_t1, data_t1) # Assign name to dataset
 rm(data_t1) # Tidy
 
 # Subset required variables
-nextstep_covid_w2_v0001_20211101 <- nextstep_covid_w2_v0001_20211101[, c("LLC_0009_stud_id", "cw2_pmeddif", "cw2_apphosp_1", "cw2_apphosp_2", "cw2_apphosp_3", "cw2_apphad", "cw2_apphadh", "cw2_apphadt", "cw2_appnot", "cw2_apphads", "cw2_apphadsh", "cw2_appnots", "cw2_appmen", "cw2_appmenhad", "cw2_appmenhadh", "cw2_apphadth", "cw2_appnoth", "cw2_psex", "cw2_combwt", "cw2_samppsu", "cw2_sampstratum", "cw2_econactivityb", "cw2_econactivityd", "cw2_peconactivityb", "cw2_peconactivityd", "cw2_covid19", "cw2_ghq", "cw2_enddated", "cw2_enddatem", "cw2_region", "cw2_nssec2010an", "cw2_lli_17")] # These are id, healthcare disruption (difficulty getting medicines, then cancelled healthcare experiences but this is tricky so see below note for explanation), sex, survey weight, economic activity (current and previous; two measures for each), if had covid-19 and self rated health, date of survey (day and month), region, NS-SeC, LLTI
+nextstep_covid_w2_v0001_20211101 <- nextstep_covid_w2_v0001_20211101[, c("LLC_0009_stud_id", "cw2_pmeddif", "cw2_apphosp_1", "cw2_apphosp_2", "cw2_apphosp_3", "cw2_apphad", "cw2_apphadh", "cw2_apphadt", "cw2_appnot", "cw2_apphads", "cw2_apphadsh", "cw2_appnots", "cw2_appmen", "cw2_appmenhad", "cw2_appmenhadh", "cw2_apphadth", "cw2_appnoth", "cw2_psex", "cw2_combwt", "cw2_samppsu", "cw2_sampstratum", "cw2_econactivityb", "cw2_econactivityd", "cw2_peconactivityb", "cw2_peconactivityd", "cw2_covid19", "cw2_ghq", "cw2_enddated", "cw2_enddatem", "cw2_region", "cw2_nssec2010an", "cw2_lli1_3", "cw2_lli1_1", "cw2_lli1_6", "cw2_lli1_9")] # These are id, healthcare disruption (difficulty getting medicines, then cancelled healthcare experiences but this is tricky so see below note for explanation), sex, survey weight, economic activity (current and previous; two measures for each), if had covid-19 and self rated health, date of survey (day and month), region, NS-SeC, LLTI
 
 # Note: cw2_apphosp_1 = did you have a hospital apointment, so select only those and then define disruption as cw2_apphad == No (did not have appointment), or cw2_apphadh == appointment was delayed. BUT also cw2_appnot gives reasons for not having the appointment - might be easier. Need to do this for each variable? (does not apply to medications variable):
 # apphad = hospital conslutation, investigation or treatment, apphads = surgery, and appmen = cbt, counselling or psychological therapy
@@ -912,7 +947,7 @@ assign(name_t1, data_t1) # Assign name to dataset
 rm(data_t1) # Tidy
 
 # Subset required variables
-nextstep_covid_w3_v0001_20211101 <- nextstep_covid_w3_v0001_20211101[, c("LLC_0009_stud_id", "cw3_pmeddif", "cw3_appcand", "cw3_appcant_1", "cw3_appcant_2", "cw3_appcant_3", "cw3_appcant_4", "cw3_psex", "cw3_combwt", "cw3_samppsu", "cw3_sampstratum", "cw3_econactivityd", "cw3_econactivityb2", "cw3_peconactivityd", "cw3_peconactivityb2", "cw3_covid19", "cw3_ghq", "cw3_enddated", "cw3_enddatem", "cw3_region", "cw3_nssec2010an", "cw3_lli_17")] # These are id, healthcare disruption (difficulty getting medicines, cancelled or delayed medical appointment overall then 4 types), sex, survey weight, economic activity (current and previous), if had covid-19 and self rated health, date of survey (day and month)
+nextstep_covid_w3_v0001_20211101 <- nextstep_covid_w3_v0001_20211101[, c("LLC_0009_stud_id", "cw3_pmeddif", "cw3_appcand", "cw3_appcant_1", "cw3_appcant_2", "cw3_appcant_3", "cw3_appcant_4", "cw3_psex", "cw3_combwt", "cw3_samppsu", "cw3_sampstratum", "cw3_econactivityd", "cw3_econactivityb2", "cw3_peconactivityd", "cw3_peconactivityb2", "cw3_covid19", "cw3_ghq", "cw3_enddated", "cw3_enddatem", "cw3_region", "cw3_nssec2010an", "cw3_lli1_3", "cw3_lli1_1", "cw3_lli1_6", "cw3_lli1_9")] # These are id, healthcare disruption (difficulty getting medicines, cancelled or delayed medical appointment overall then 4 types), sex, survey weight, economic activity (current and previous), if had covid-19 and self rated health, date of survey (day and month)
 
 
 # Join onto main data
@@ -999,6 +1034,22 @@ nextstep$covid <- NA # Create blank variable
 nextstep$covid[nextstep$cw1_covid19 > 2 | nextstep$cw2_covid19 > 2 | nextstep$cw3_covid19 > 2] <- "No" # Opposite
 nextstep$covid[nextstep$cw1_covid19 < 3 | nextstep$cw2_covid19 < 3 | nextstep$cw3_covid19 < 3] <- "Yes" # Reported they had COVID-19 in any wave
 
+# Asthma
+nextstep$asthma <- 0 # Create blank variable - hard to tell who has missing data though due to set up
+nextstep$asthma[nextstep$cw1_lli_3 == 1 | nextstep$cw2_lli1_3 == 1 | nextstep$cw3_lli1_3 == 1] <- 1 # Has condition
+
+# Cancer
+nextstep$cancer <- 0 # Create blank variable - hard to tell who has missing data though due to set up
+nextstep$cancer[nextstep$cw1_lli_1 == 1 | nextstep$cw2_lli1_1 == 1 | nextstep$cw3_lli1_1 == 1] <- 1 # Has condition
+
+# Diabetes
+nextstep$diabetes <- 0 # Create blank variable - hard to tell who has missing data though due to set up
+nextstep$diabetes[nextstep$cw1_lli_6 == 1 | nextstep$cw2_lli1_6 == 1 | nextstep$cw3_lli1_6 == 1] <- 1 # Has condition
+
+# Hypertension
+nextstep$hypertension <- 0 # Create blank variable - hard to tell who has missing data though due to set up
+nextstep$hypertension[nextstep$cw1_lli_9 == 1 | nextstep$cw2_lli1_9 == 1 | nextstep$cw3_lli1_9 == 1] <- 1 # Has condition
+
 # Healthcare disruption
 # Wave 2 is a bit complicated to say the least
 # var_lab(nextstep$cw1_surgcan_10) #Helpful in looking up variable descriptions
@@ -1042,7 +1093,7 @@ nextstep$fpc <- 0 # Set as 0
 # Subset variables required
 nextstep$date <- paste0(nextstep$cw3_enddated, "/", nextstep$cw3_enddatem, "/2021", sep = "") #  Save date as latest wave
 # survey weight???
-nextstep <- nextstep[, c("LLC_0009_stud_id", "date", "sex", "age", "ethnicity", "region", "country", "tenure", "education", "general_health", "covid", "disruption_appointments", "disruption_medications", "disruption_procedures", "disruption_any", "weight", "psu", "strata", "fpc")] # Subset variables
+nextstep <- nextstep[, c("LLC_0009_stud_id", "date", "sex", "age", "ethnicity", "region", "country", "tenure", "education", "general_health", "covid", "asthma", "cancer", "diabetes", "hypertension", "disruption_appointments", "disruption_medications", "disruption_procedures", "disruption_any", "weight", "psu", "strata", "fpc")] # Subset variables
 
 # Save #
 nextstep$cohort <- "nextstep" # Save name of cohort for when combine them together
@@ -1065,7 +1116,7 @@ assign(name_t1, data_t1) # Assign name to dataset
 rm(data_t1) # Tidy
 
 # Subset required variables
-ncds58 <- ncds58_covid_w1_v0001_20211101[, c("LLC_0009_stud_id", "cw1_surgcan", "cw1_psex", "cw1_combwt", "cw1_samppsu", "cw1_sampstratum", "cw1_econactivityb", "cw1_econactivityd", "cw1_covid19", "cw1_ghq", "cw1_region", "cw1_nssec2010an", "cw1_enddate", "cw1_lli_17")] # These are in order - id, disruption experienced (surgery), sex, survey weight, economic activity (2x), if have had COVID-19, self-rated health status, region, NS-SeC, date, long-standing illness
+ncds58 <- ncds58_covid_w1_v0001_20211101[, c("LLC_0009_stud_id", "cw1_surgcan", "cw1_psex", "cw1_combwt", "cw1_samppsu", "cw1_sampstratum", "cw1_econactivityb", "cw1_econactivityd", "cw1_covid19", "cw1_ghq", "cw1_region", "cw1_nssec2010an", "cw1_enddate", "cw1_lli_3", "cw1_lli_1", "cw1_lli_6", "cw1_lli_9")] # These are in order - id, disruption experienced (6 vars), sex, survey weight, economic activity (2x), if have had COVID-19, self-rated health status, health conditions (asthma, cancer, diabetes, hypertension)
 rm(ncds58_covid_w1_v0001_20211101) 
 
 
@@ -1081,7 +1132,7 @@ assign(name_t1, data_t1) # Assign name to dataset
 rm(data_t1) # Tidy
 
 # Subset required variables
-ncds58_covid_w2_v0001_20211101 <- ncds58_covid_w2_v0001_20211101[, c("LLC_0009_stud_id", "cw2_pmeddif", "cw2_apphosp_1", "cw2_apphosp_2", "cw2_apphosp_3", "cw2_apphad", "cw2_apphadh", "cw2_apphadt", "cw2_appnot", "cw2_apphads", "cw2_apphadsh", "cw2_appnots", "cw2_appmen", "cw2_appmenhad", "cw2_appmenhadh", "cw2_apphadth", "cw2_appnoth", "cw2_psex", "cw2_combwt", "cw2_samppsu", "cw2_sampstratum", "cw2_econactivityb", "cw2_econactivityd", "cw2_peconactivityb", "cw2_peconactivityd", "cw2_covid19", "cw2_ghq", "cw2_enddated", "cw2_enddatem", "cw2_region", "cw2_nssec2010an", "cw2_lli_17")] # These are id, healthcare disruption (difficulty getting medicines, then cancelled healthcare experiences but this is tricky so see below note for explanation), sex, survey weight, economic activity (current and previous; two measures for each), if had covid-19 and self rated health, date of survey (day and month), region, NS-SeC, LLTI
+ncds58_covid_w2_v0001_20211101 <- ncds58_covid_w2_v0001_20211101[, c("LLC_0009_stud_id", "cw2_pmeddif", "cw2_apphosp_1", "cw2_apphosp_2", "cw2_apphosp_3", "cw2_apphad", "cw2_apphadh", "cw2_apphadt", "cw2_appnot", "cw2_apphads", "cw2_apphadsh", "cw2_appnots", "cw2_appmen", "cw2_appmenhad", "cw2_appmenhadh", "cw2_apphadth", "cw2_appnoth", "cw2_psex", "cw2_combwt", "cw2_samppsu", "cw2_sampstratum", "cw2_econactivityb", "cw2_econactivityd", "cw2_peconactivityb", "cw2_peconactivityd", "cw2_covid19", "cw2_ghq", "cw2_enddated", "cw2_enddatem", "cw2_region", "cw2_nssec2010an", "cw2_lli1_3", "cw2_lli1_1", "cw2_lli1_6", "cw2_lli1_9")] # These are id, healthcare disruption (difficulty getting medicines, then cancelled healthcare experiences but this is tricky so see below note for explanation), sex, survey weight, economic activity (current and previous; two measures for each), if had covid-19 and self rated health, date of survey (day and month), region, NS-SeC, LLTI
 
 # Note: cw2_apphosp_1 = did you have a hospital apointment, so select only those and then define disruption as cw2_apphad == No (did not have appointment), or cw2_apphadh == appointment was delayed. BUT also cw2_appnot gives reasons for not having the appointment - might be easier. Need to do this for each variable? (does not apply to medications variable):
 # apphad = hospital conslutation, investigation or treatment, apphads = surgery, and appmen = cbt, counselling or psychological therapy
@@ -1103,7 +1154,7 @@ assign(name_t1, data_t1) # Assign name to dataset
 rm(data_t1) # Tidy
 
 # Subset required variables
-ncds58_covid_w3_v0001_20211101 <- ncds58_covid_w3_v0001_20211101[, c("LLC_0009_stud_id", "cw3_pmeddif", "cw3_appcand", "cw3_appcant_1", "cw3_appcant_2", "cw3_appcant_3", "cw3_appcant_4", "cw3_psex", "cw3_combwt", "cw3_samppsu", "cw3_sampstratum", "cw3_econactivityd", "cw3_econactivityb2", "cw3_peconactivityd", "cw3_peconactivityb2", "cw3_covid19", "cw3_ghq", "cw3_enddated", "cw3_enddatem", "cw3_region", "cw3_nssec2010an", "cw3_lli_17")] # These are id, healthcare disruption (difficulty getting medicines, cancelled or delayed medical appointment overall then 4 types), sex, survey weight, economic activity (current and previous), if had covid-19 and self rated health, date of survey (day and month)
+ncds58_covid_w3_v0001_20211101 <- ncds58_covid_w3_v0001_20211101[, c("LLC_0009_stud_id", "cw3_pmeddif", "cw3_appcand", "cw3_appcant_1", "cw3_appcant_2", "cw3_appcant_3", "cw3_appcant_4", "cw3_psex", "cw3_combwt", "cw3_samppsu", "cw3_sampstratum", "cw3_econactivityd", "cw3_econactivityb2", "cw3_peconactivityd", "cw3_peconactivityb2", "cw3_covid19", "cw3_ghq", "cw3_enddated", "cw3_enddatem", "cw3_region", "cw3_nssec2010an", "cw3_lli1_3", "cw3_lli1_1", "cw3_lli1_6", "cw3_lli1_9")] # These are id, healthcare disruption (difficulty getting medicines, cancelled or delayed medical appointment overall then 4 types), sex, survey weight, economic activity (current and previous), if had covid-19 and self rated health, date of survey (day and month)
 
 
 # Join onto main data
@@ -1187,6 +1238,22 @@ ncds58$covid <- NA # Create blank variable
 ncds58$covid[ncds58$cw1_covid19 > 2 | ncds58$cw2_covid19 > 2 | ncds58$cw3_covid19 > 2] <- "No" # Opposite
 ncds58$covid[ncds58$cw1_covid19 < 3 | ncds58$cw2_covid19 < 3 | ncds58$cw3_covid19 < 3] <- "Yes" # Reported they had COVID-19 in any wave
 
+# Asthma
+ncds58$asthma <- 0 # Create blank variable - hard to tell who has missing data though due to set up
+ncds58$asthma[ncds58$cw1_lli_3 == 1 | ncds58$cw2_lli1_3 == 1 | ncds58$cw3_lli1_3 == 1] <- 1 # Has condition
+
+# Cancer
+ncds58$cancer <- 0 # Create blank variable - hard to tell who has missing data though due to set up
+ncds58$cancer[ncds58$cw1_lli_1 == 1 | ncds58$cw2_lli1_1 == 1 | ncds58$cw3_lli1_1 == 1] <- 1 # Has condition
+
+# Diabetes
+ncds58$diabetes <- 0 # Create blank variable - hard to tell who has missing data though due to set up
+ncds58$diabetes[ncds58$cw1_lli_6 == 1 | ncds58$cw2_lli1_6 == 1 | ncds58$cw3_lli1_6 == 1] <- 1 # Has condition
+
+# Hypertension
+ncds58$hypertension <- 0 # Create blank variable - hard to tell who has missing data though due to set up
+ncds58$hypertension[ncds58$cw1_lli_9 == 1 | ncds58$cw2_lli1_9 == 1 | ncds58$cw3_lli1_9 == 1] <- 1 # Has condition
+
 # Healthcare disruption
 # Wave 2 is a bit complicated to say the least
 # var_lab(ncds58$cw1_surgcan_10) #Helpful in looking up variable descriptions
@@ -1230,7 +1297,7 @@ ncds58$fpc <- 0 # Set as 0
 # Subset variables required
 ncds58$date <- paste0(ncds58$cw3_enddated, "/", ncds58$cw3_enddatem, "/2021", sep = "") #  Save date as latest wave
 # survey weight???
-ncds58 <- ncds58[, c("LLC_0009_stud_id", "date", "sex", "age", "ethnicity", "region", "country", "tenure", "education", "general_health", "covid", "disruption_appointments", "disruption_medications", "disruption_procedures", "disruption_any", "weight", "psu", "strata", "fpc")] # Subset variables
+ncds58 <- ncds58[, c("LLC_0009_stud_id", "date", "sex", "age", "ethnicity", "region", "country", "tenure", "education", "general_health", "covid", "asthma", "cancer", "diabetes", "hypertension", "disruption_appointments", "disruption_medications", "disruption_procedures", "disruption_any", "weight", "psu", "strata", "fpc")] # Subset variables
 
 # Save #
 ncds58$cohort <- "ncds58"
@@ -1251,7 +1318,7 @@ assign(name_t1, data_t1) # Assign name to dataset
 rm(data_t1) # Tidy
 
 # Subset required variables
-mcs <- mcs_covid_cm_w1_v0001_20211101[, c("LLC_0009_stud_id", "cw1_surgcan", "cw1_psex", "cw1_combwt", "cw1_samppsu", "cw1_sampstratum", "cw1_covid19", "cw1_ghq", "cw1_region", "cw1_enddate")] # These are in order - id, disruption experienced (surgery), sex, survey weight,if have had COVID-19, self-rated health status, region, date
+mcs <- mcs_covid_cm_w1_v0001_20211101[, c("LLC_0009_stud_id", "cw1_surgcan", "cw1_psex", "cw1_combwt", "cw1_samppsu", "cw1_sampstratum", "cw1_covid19", "cw1_ghq", "cw1_region", "cw1_enddate", "cw1_lli_3", "cw1_lli_1", "cw1_lli_6", "cw1_lli_9")] # These are in order - id, disruption experienced (surgery), sex, survey weight,if have had COVID-19, self-rated health status, region, date, health conditions (asthma, cancer, diabetes, hypertension)
 rm(mcs_covid_cm_w1_v0001_20211101) 
 
 # Wave 2
@@ -1265,7 +1332,7 @@ assign(name_t1, data_t1) # Assign name to dataset
 rm(data_t1) # Tidy
 
 # Subset required variables
-mcs_covid_cm_w2_v0001_20211101 <- mcs_covid_cm_w2_v0001_20211101[, c("LLC_0009_stud_id", "cw2_pmeddif", "cw2_apphosp_1", "cw2_apphosp_2", "cw2_apphosp_3", "cw2_apphad", "cw2_apphadh", "cw2_apphadt", "cw2_appnot", "cw2_apphads", "cw2_apphadsh", "cw2_appnots", "cw2_appmen", "cw2_appmenhad", "cw2_appmenhadh", "cw2_apphadth", "cw2_appnoth", "cw2_psex", "cw2_combwt", "cw2_samppsu", "cw2_sampstratum", "cw2_covid19", "cw2_ghq", "cw2_enddated", "cw2_enddatem", "cw2_region", "cw2_tenure")] # These are id, healthcare disruption (difficulty getting medicines, then cancelled healthcare experiences but this is tricky so see below note for explanation), sex, survey weight, if had covid-19 and self rated health, date of survey (day and month), region, tenure
+mcs_covid_cm_w2_v0001_20211101 <- mcs_covid_cm_w2_v0001_20211101[, c("LLC_0009_stud_id", "cw2_pmeddif", "cw2_apphosp_1", "cw2_apphosp_2", "cw2_apphosp_3", "cw2_apphad", "cw2_apphadh", "cw2_apphadt", "cw2_appnot", "cw2_apphads", "cw2_apphadsh", "cw2_appnots", "cw2_appmen", "cw2_appmenhad", "cw2_appmenhadh", "cw2_apphadth", "cw2_appnoth", "cw2_psex", "cw2_combwt", "cw2_samppsu", "cw2_sampstratum", "cw2_covid19", "cw2_ghq", "cw2_enddated", "cw2_enddatem", "cw2_region", "cw2_tenure", "cw2_lli1_3", "cw2_lli1_1", "cw2_lli1_6", "cw2_lli1_9")] # These are id, healthcare disruption (difficulty getting medicines, then cancelled healthcare experiences but this is tricky so see below note for explanation), sex, survey weight, if had covid-19 and self rated health, date of survey (day and month), region, tenure
 
 # Note: cw2_apphosp_1 = did you have a hospital apointment, so select only those and then define disruption as cw2_apphad == No (did not have appointment), or cw2_apphadh == appointment was delayed. BUT also cw2_appnot gives reasons for not having the appointment - might be easier. Need to do this for each variable? (does not apply to medications variable):
 # apphad = hospital conslutation, investigation or treatment, apphads = surgery, and appmen = cbt, counselling or psychological therapy
@@ -1285,7 +1352,7 @@ assign(name_t1, data_t1) # Assign name to dataset
 rm(data_t1) # Tidy
 
 # Subset required variables
-mcs_covid_cm_w3_v0001_20211101 <- mcs_covid_cm_w3_v0001_20211101[, c("LLC_0009_stud_id", "cw3_pmeddif", "cw3_appcand", "cw3_appcant_1", "cw3_appcant_2", "cw3_appcant_3", "cw3_appcant_4", "cw3_psex", "cw3_combwt", "cw3_samppsu", "cw3_sampstratum", "cw3_covid19", "cw3_ghq", "cw3_enddated", "cw3_enddatem", "cw3_region", "cw3_tenure")] # These are id, healthcare disruption (difficulty getting medicines, cancelled or delayed medical appointment overall then 4 types), sex, survey weight, if had covid-19 and self rated health, date of survey (day and month), tenure
+mcs_covid_cm_w3_v0001_20211101 <- mcs_covid_cm_w3_v0001_20211101[, c("LLC_0009_stud_id", "cw3_pmeddif", "cw3_appcand", "cw3_appcant_1", "cw3_appcant_2", "cw3_appcant_3", "cw3_appcant_4", "cw3_psex", "cw3_combwt", "cw3_samppsu", "cw3_sampstratum", "cw3_covid19", "cw3_ghq", "cw3_enddated", "cw3_enddatem", "cw3_region", "cw3_tenure", "cw3_lli1_3", "cw3_lli1_1", "cw3_lli1_6", "cw3_lli1_9")] # These are id, healthcare disruption (difficulty getting medicines, cancelled or delayed medical appointment overall then 4 types), sex, survey weight, if had covid-19 and self rated health, date of survey (day and month), tenure
 
 
 # Join onto main data
@@ -1367,6 +1434,22 @@ mcs$covid <- NA # Create blank variable
 mcs$covid[mcs$cw1_covid19 > 2 | mcs$cw2_covid19 > 2 | mcs$cw3_covid19 > 2] <- "No" # Opposite
 mcs$covid[mcs$cw1_covid19 < 3 | mcs$cw2_covid19 < 3 | mcs$cw3_covid19 < 3] <- "Yes" # Reported they had COVID-19 in any wave
 
+# Asthma
+mcs$asthma <- 0 # Create blank variable - hard to tell who has missing data though due to set up
+mcs$asthma[mcs$cw1_lli_3 == 1 | mcs$cw2_lli1_3 == 1 | mcs$cw3_lli1_3 == 1] <- 1 # Has condition
+
+# Cancer
+mcs$cancer <- 0 # Create blank variable - hard to tell who has missing data though due to set up
+mcs$cancer[mcs$cw1_lli_1 == 1 | mcs$cw2_lli1_1 == 1 | mcs$cw3_lli1_1 == 1] <- 1 # Has condition
+
+# Diabetes
+mcs$diabetes <- 0 # Create blank variable - hard to tell who has missing data though due to set up
+mcs$diabetes[mcs$cw1_lli_6 == 1 | mcs$cw2_lli1_6 == 1 | mcs$cw3_lli1_6 == 1] <- 1 # Has condition
+
+# Hypertension
+mcs$hypertension <- 0 # Create blank variable - hard to tell who has missing data though due to set up
+mcs$hypertension[mcs$cw1_lli_9 == 1 | mcs$cw2_lli1_9 == 1 | mcs$cw3_lli1_9 == 1] <- 1 # Has condition
+
 # Healthcare disruption
 # Wave 2 is a bit complicated to say the least
 # var_lab(mcs$cw1_surgcan_10) #Helpful in looking up variable descriptions
@@ -1412,7 +1495,7 @@ mcs$fpc <- 0 # Set as 0
 # Subset variables required
 mcs$date <- paste0(mcs$cw3_enddated, "/", mcs$cw3_enddatem, "/2021", sep = "") #  Save date as latest wave
 # survey weight???
-mcs <- mcs[, c("LLC_0009_stud_id", "date", "sex", "age", "ethnicity", "region", "country", "tenure", "education", "general_health", "covid", "disruption_appointments", "disruption_medications", "disruption_procedures", "disruption_any", "weight", "psu", "strata", "fpc")] # Subset variables
+mcs <- mcs[, c("LLC_0009_stud_id", "date", "sex", "age", "ethnicity", "region", "country", "tenure", "education", "general_health", "covid", "asthma", "cancer", "diabetes", "hypertension", "disruption_appointments", "disruption_medications", "disruption_procedures", "disruption_any", "weight", "psu", "strata", "fpc")] # Subset variables
 
 # Save #
 mcs$cohort <- "mcs"
@@ -1636,7 +1719,7 @@ assign(name_t1, data_t1) # Assign name to dataset
 rm(data_t1) # Tidy
 
 # Subset required variables
-elsa <- elsa_elsa_covid_w1_eul_v0001_20211101[, c("LLC_0009_stud_id", "cintdatd", "cintdatm", "cintdaty", "cov19lwgt", "age_arch", "sex", "ethnicity_arch", "rgn_arch", "tenure_arch", "w9edqual", "cvheself", "cvhehosp", "cvhegpb", "cvhemed", "cvcomm", "cvpred", "cvtestb")] # These are in order - id, interview date (day, month then year), sample weight, age, sex, ethnicity, region, education, self-rated health, healthcare disruption (4 vars - hospital visit cancelled, able to see GP, medication, community services), economic activity, tested for COVID-19
+elsa <- elsa_elsa_covid_w1_eul_v0001_20211101[, c("LLC_0009_stud_id", "cintdatd", "cintdatm", "cintdaty", "cov19lwgt", "age_arch", "sex", "ethnicity_arch", "rgn_arch", "tenure_arch", "w9edqual", "cvheself", "cvhehosp", "cvhegpb", "cvhemed", "cvcomm", "cvpred", "cvtestb", "cvhecond07", "cvhecond09", "cvhecond11", "cvhecond04", "cvhecond01")] # These are in order - id, interview date (day, month then year), sample weight, age, sex, ethnicity, region, education, self-rated health, healthcare disruption (4 vars - hospital visit cancelled, able to see GP, medication, community services), economic activity, tested for COVID-19, health conditions (asthma, cancer x2, diabetes, hypertension)
 rm(elsa_elsa_covid_w1_eul_v0001_20211101) 
 
 # Wave 2 #
@@ -1650,7 +1733,7 @@ assign(name_t1, data_t1) # Assign name to dataset
 rm(data_t1) # Tidy
 
 # Subset required variables
-elsa_elsa_covid_w2_eul_v0001_20211101 <- elsa_elsa_covid_w2_eul_v0001_20211101[, c("LLC_0009_stud_id", "cintdatd", "cintdatm", "cintdaty", "cov19lwgtw2", "age_arch", "sex", "ethnicity_arch", "rgn_arch", "tenure", "cvheself", "cvhehosp", "cvcomm", "cvcommb_final001", "cvcommb_final002", "cvcommb_final003", "cvcommb_final004", "cvcommb_final005", "cvcommb_final006", "cvcommb_final007", "cvcommb_final012", "cvcommb_final013", "cvcommb_final980", "cvcommb_final990", "cvcommb_final995", "cvcommb_final996", "cvcommb_final997", "cvcommb_final999", "cvcommb_final001", "cvpred", "cvtestb")] # These are in order - id, interview date (day, month then year), sample weight, age, sex, ethnicity, region, self-rated health, healthcare disruption (hospital visit cancelled, unable to access any service (overall measure), then 15 measures by type what a faff and I only know what abpout half are atm), economic activity, tested for COVID-19
+elsa_elsa_covid_w2_eul_v0001_20211101 <- elsa_elsa_covid_w2_eul_v0001_20211101[, c("LLC_0009_stud_id", "cintdatd", "cintdatm", "cintdaty", "cov19lwgtw2", "age_arch", "sex", "ethnicity_arch", "rgn_arch", "tenure", "cvheself", "cvhehosp", "cvcomm", "cvcommb_final001", "cvcommb_final002", "cvcommb_final003", "cvcommb_final004", "cvcommb_final005", "cvcommb_final006", "cvcommb_final007", "cvcommb_final012", "cvcommb_final013", "cvcommb_final980", "cvcommb_final990", "cvcommb_final995", "cvcommb_final996", "cvcommb_final997", "cvcommb_final999", "cvcommb_final001", "cvpred", "cvtestb", "cvhecond_final007", "cvhecond_final009", "cvhecond_final011", "cvhecond_final004", "cvhecond_final001")] # These are in order - id, interview date (day, month then year), sample weight, age, sex, ethnicity, region, self-rated health, healthcare disruption (hospital visit cancelled, unable to access any service (overall measure), then 15 measures by type what a faff and I only know what abpout half are atm), economic activity, tested for COVID-19, health conditions (asthma, cancer x2, diabetes, hypertension)
 
 # Join onto main data
 elsa <- merge(elsa, elsa_elsa_covid_w2_eul_v0001_20211101, by = "LLC_0009_stud_id", all = TRUE)
@@ -1717,6 +1800,27 @@ elsa$covid <- NA
 elsa$covid[elsa$cvtestb.x >= -1 | elsa$cvtestb.y >= -1] <- 0
 elsa$covid[elsa$cvtestb.x == 1 | elsa$cvtestb.y == 1] <- 1
 
+# Asthma
+elsa$asthma <- NA # Create blank variable
+elsa$asthma[elsa$cvhecond07 == 0 | elsa$cvhecond_final007 == 0] <- 0 # Does not have the condition
+elsa$asthma[elsa$cvhecond07 == 1 | elsa$cvhecond_final007 == 1] <- 1 # Has reported that they have the condition
+
+# Cancer
+elsa$cancer <- NA # Create blank variable
+elsa$cancer[elsa$cvhecond09 == 0 | elsa$cvhecond_final009 == 0 | elsa$cvhecond11 == 0 | elsa$cvhecond_final011 == 0] <- 0 # Does not have the condition
+elsa$cancer[elsa$cvhecond09 == 1 | elsa$cvhecond_final009 == 1 | elsa$cvhecond11 == 1 | elsa$cvhecond_final011 == 1] <- 1 # Has reported that they have the condition
+
+# Diabetes
+elsa$diabetes <- NA # Create blank variable
+elsa$diabetes[elsa$cvhecond04 == 0 | elsa$cvhecond_final004 == 0] <- 0 # Does not have the condition
+elsa$diabetes[elsa$cvhecond04 == 1 | elsa$cvhecond_final004 == 1] <- 1 # Has reported that they have the condition
+
+# Hypertension
+elsa$hypertension <- NA # Create blank variable
+elsa$hypertension[elsa$cvhecond01 == 0 | elsa$cvhecond_final001 == 0] <- 0 # Does not have the condition
+elsa$hypertension[elsa$cvhecond01 == 1 | elsa$cvhecond_final001 == 1] <- 1 # Has reported that they have the condition
+
+
 # Healthcare disruption
 elsa$disruption_appointments <- NA 
 elsa$disruption_appointments[elsa$cvcomm.x >= 1 | elsa$cvcomm.y >= 1 | elsa$cvhegpb >= 1 | (elsa$cvcommb_final001 < 1 | elsa$cvcommb_final002 < 1 | elsa$cvcommb_final003 < 1 | elsa$cvcommb_final004 < 1 | elsa$cvcommb_final005 < 1 | elsa$cvcommb_final006 < 1 | elsa$cvcommb_final007 < 1 | elsa$cvcommb_final012 < 1 | elsa$cvcommb_final013 < 1)] <- 0
@@ -1749,7 +1853,7 @@ elsa$date <- paste0(elsa$cintdatd.y, "/", elsa$cintdatm.y, "/", elsa$cintdaty.y,
 elsa$date[elsa$date == "NA/NA/NA"] <- NA # Recode as missing
 
 # Subset variables required
-elsa <- elsa[, c("LLC_0009_stud_id", "date", "sex", "age", "ethnicity", "region", "country", "tenure", "education", "general_health", "covid", "disruption_appointments", "disruption_medications", "disruption_procedures", "disruption_any", "weight", "psu", "strata", "fpc")] # Subset variables
+elsa <- elsa[, c("LLC_0009_stud_id", "date", "sex", "age", "ethnicity", "region", "country", "tenure", "education", "general_health", "covid", "asthma", "cancer", "diabetes", "hypertension", "disruption_appointments", "disruption_medications", "disruption_procedures", "disruption_any", "weight", "psu", "strata", "fpc")] # Subset variables
 
 # Save #
 elsa$cohort <- "elsa"
@@ -1908,7 +2012,7 @@ assign(name_t1, data_t1) # Assign name to dataset
 rm(data_t1) # Tidy
 
 # Subset required variables
-bcs70 <- bcs70_covid_w1_v0001_20211101[, c("LLC_0009_stud_id", "cw1_surgcan", "cw1_psex", "cw1_combwt", "cw1_samppsu", "cw1_sampstratum", "cw1_econactivityb", "cw1_econactivityd", "cw1_covid19", "cw1_ghq", "cw1_region", "cw1_nssec2010an", "cw1_enddate", "cw1_lli_17")] # These are in order - id, disruption experienced (surgery), sex, survey weight, economic activity (2x), if have had COVID-19, self-rated health status, region, NS-SeC, date, long-standing illness
+bcs70 <- bcs70_covid_w1_v0001_20211101[, c("LLC_0009_stud_id", "cw1_surgcan", "cw1_psex", "cw1_combwt", "cw1_samppsu", "cw1_sampstratum", "cw1_econactivityb", "cw1_econactivityd", "cw1_covid19", "cw1_ghq", "cw1_region", "cw1_nssec2010an", "cw1_enddate", "cw1_lli_3", "cw1_lli_1", "cw1_lli_6", "cw1_lli_9")] # These are in order - id, disruption experienced (surgery), sex, survey weight, economic activity (2x), if have had COVID-19, self-rated health status, region, NS-SeC, date, health conditions
 rm(bcs70_covid_w1_v0001_20211101) 
 
 # Wave 2 #
@@ -1922,7 +2026,7 @@ assign(name_t1, data_t1) # Assign name to dataset
 rm(data_t1) # Tidy
 
 # Subset required variables
-bcs70_covid_w2_v0001_20211101 <- bcs70_covid_w2_v0001_20211101[, c("LLC_0009_stud_id", "cw2_pmeddif", "cw2_apphosp_1", "cw2_apphosp_2", "cw2_apphosp_3", "cw2_apphad", "cw2_apphadh", "cw2_apphadt", "cw2_appnot", "cw2_apphads", "cw2_apphadsh", "cw2_appnots", "cw2_appmen", "cw2_appmenhad", "cw2_appmenhadh", "cw2_apphadth", "cw2_appnoth", "cw2_psex", "cw2_combwt", "cw2_samppsu", "cw2_sampstratum", "cw2_econactivityb", "cw2_econactivityd", "cw2_peconactivityb", "cw2_peconactivityd", "cw2_covid19", "cw2_ghq", "cw2_enddated", "cw2_enddatem", "cw2_region", "cw2_nssec2010an", "cw2_lli_17")] # These are id, healthcare disruption (difficulty getting medicines, then cancelled healthcare experiences but this is tricky so see below note for explanation), sex, survey weight, economic activity (current and previous; two measures for each), if had covid-19 and self rated health, date of survey (day and month), region, NS-SeC, LLTI
+bcs70_covid_w2_v0001_20211101 <- bcs70_covid_w2_v0001_20211101[, c("LLC_0009_stud_id", "cw2_pmeddif", "cw2_apphosp_1", "cw2_apphosp_2", "cw2_apphosp_3", "cw2_apphad", "cw2_apphadh", "cw2_apphadt", "cw2_appnot", "cw2_apphads", "cw2_apphadsh", "cw2_appnots", "cw2_appmen", "cw2_appmenhad", "cw2_appmenhadh", "cw2_apphadth", "cw2_appnoth", "cw2_psex", "cw2_combwt", "cw2_samppsu", "cw2_sampstratum", "cw2_econactivityb", "cw2_econactivityd", "cw2_peconactivityb", "cw2_peconactivityd", "cw2_covid19", "cw2_ghq", "cw2_enddated", "cw2_enddatem", "cw2_region", "cw2_nssec2010an", "cw2_lli1_3", "cw2_lli1_1", "cw2_lli1_6", "cw2_lli1_9")] # These are id, healthcare disruption (difficulty getting medicines, then cancelled healthcare experiences but this is tricky so see below note for explanation), sex, survey weight, economic activity (current and previous; two measures for each), if had covid-19 and self rated health, date of survey (day and month), region, NS-SeC, LLTI
 
 # Note: cw2_apphosp_1 = did you have a hospital apointment, so select only those and then define disruption as cw2_apphad == No (did not have appointment), or cw2_apphadh == appointment was delayed. BUT also cw2_appnot gives reasons for not having the appointment - might be easier. Need to do this for each variable? (does not apply to medications variable):
 # apphad = hospital conslutation, investigation or treatment, apphads = surgery, and appmen = cbt, counselling or psychological therapy
@@ -1944,7 +2048,7 @@ assign(name_t1, data_t1) # Assign name to dataset
 rm(data_t1) # Tidy
 
 # Subset required variables
-bcs70_covid_w3_v0001_20211101 <- bcs70_covid_w3_v0001_20211101[, c("LLC_0009_stud_id", "cw3_pmeddif", "cw3_appcand", "cw3_appcant_1", "cw3_appcant_2", "cw3_appcant_3", "cw3_appcant_4", "cw3_psex", "cw3_combwt", "cw3_samppsu", "cw3_sampstratum", "cw3_econactivityd", "cw3_econactivityb2", "cw3_peconactivityd", "cw3_peconactivityb2", "cw3_covid19", "cw3_ghq", "cw3_enddated", "cw3_enddatem", "cw3_region", "cw3_nssec2010an", "cw3_lli_17")] # These are id, healthcare disruption (difficulty getting medicines, cancelled or delayed medical appointment overall then 4 types), sex, survey weight, economic activity (current and previous), if had covid-19 and self rated health, date of survey (day and month)
+bcs70_covid_w3_v0001_20211101 <- bcs70_covid_w3_v0001_20211101[, c("LLC_0009_stud_id", "cw3_pmeddif", "cw3_appcand", "cw3_appcant_1", "cw3_appcant_2", "cw3_appcant_3", "cw3_appcant_4", "cw3_psex", "cw3_combwt", "cw3_samppsu", "cw3_sampstratum", "cw3_econactivityd", "cw3_econactivityb2", "cw3_peconactivityd", "cw3_peconactivityb2", "cw3_covid19", "cw3_ghq", "cw3_enddated", "cw3_enddatem", "cw3_region", "cw3_nssec2010an", "cw3_lli1_3", "cw3_lli1_1", "cw3_lli1_6", "cw3_lli1_9")] # These are id, healthcare disruption (difficulty getting medicines, cancelled or delayed medical appointment overall then 4 types), sex, survey weight, economic activity (current and previous), if had covid-19 and self rated health, date of survey (day and month)
 
 
 # Join onto main data
@@ -2032,6 +2136,22 @@ bcs70$covid <- NA # Create blank variable
 bcs70$covid[bcs70$cw1_covid19 > 2 | bcs70$cw2_covid19 > 2 | bcs70$cw3_covid19 > 2] <- "No" # Opposite
 bcs70$covid[bcs70$cw1_covid19 < 3 | bcs70$cw2_covid19 < 3 | bcs70$cw3_covid19 < 3] <- "Yes" # Reported they had COVID-19 in any wave
 
+# Asthma
+bcs70$asthma <- 0 # Create blank variable - hard to tell who has missing data though due to set up
+bcs70$asthma[bcs70$cw1_lli_3 == 1 | bcs70$cw2_lli1_3 == 1 | bcs70$cw3_lli1_3 == 1] <- 1 # Has condition
+
+# Cancer
+bcs70$cancer <- 0 # Create blank variable - hard to tell who has missing data though due to set up
+bcs70$cancer[bcs70$cw1_lli_1 == 1 | bcs70$cw2_lli1_1 == 1 | bcs70$cw3_lli1_1 == 1] <- 1 # Has condition
+
+# Diabetes
+bcs70$diabetes <- 0 # Create blank variable - hard to tell who has missing data though due to set up
+bcs70$diabetes[bcs70$cw1_lli_6 == 1 | bcs70$cw2_lli1_6 == 1 | bcs70$cw3_lli1_6 == 1] <- 1 # Has condition
+
+# Hypertension
+bcs70$hypertension <- 0 # Create blank variable - hard to tell who has missing data though due to set up
+bcs70$hypertension[bcs70$cw1_lli_9 == 1 | bcs70$cw2_lli1_9 == 1 | bcs70$cw3_lli1_9 == 1] <- 1 # Has condition
+
 # Healthcare disruption
 # Wave 2 is a bit complicated to say the least
 # var_lab(bcs70$cw1_surgcan_10) #Helpful in looking up variable descriptions
@@ -2075,7 +2195,7 @@ bcs70$fpc <- 0 # Set as 0
 # Subset variables required
 bcs70$date <- paste0(bcs70$cw3_enddated, "/", bcs70$cw3_enddatem, "/2021", sep = "") #  Save date as latest wave
 # survey weight???
-bcs70 <- bcs70[, c("LLC_0009_stud_id", "date", "sex", "age", "ethnicity", "region", "country", "tenure", "education", "general_health", "covid", "disruption_appointments", "disruption_medications", "disruption_procedures", "disruption_any", "weight", "psu", "strata", "fpc")] # Subset variables
+bcs70 <- bcs70[, c("LLC_0009_stud_id", "date", "sex", "age", "ethnicity", "region", "country", "tenure", "education", "general_health", "covid", "asthma", "cancer", "diabetes", "hypertension", "disruption_appointments", "disruption_medications", "disruption_procedures", "disruption_any", "weight", "psu", "strata", "fpc")] # Subset variables
 
 
 # Save #

@@ -76,7 +76,7 @@ table2 <- tidy(model_surv_any_a_u, conf.int = TRUE) # Save key results
 table2 <- table2[2,] # Extract only healthcare disruption variable
 table2$model <- "All ACS - unadj" # Note model name
 
-model_surv_any_a_a <- svycoxph(Surv(time_to_ambulatory_all, censor) ~ imp_disruption_any + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) +factor(imp_imd2019_income_q5) + factor(cohort), data = sensitivity_analyses, design = wgt3) # Adjusted
+model_surv_any_a_a <- svycoxph(Surv(time_to_ambulatory_all, censor) ~ imp_disruption_any + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) +factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = sensitivity_analyses, design = wgt3) # Adjusted
 hold <- tidy(model_surv_any_a_a, conf.int = TRUE) # Save key results
 hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "All ACS - adj" # Note model name
@@ -92,7 +92,7 @@ hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "Acute ACS - unadj" # Note model name
 table2 <- rbind(table2, hold) # Join to main table
 
-model_surv_any_b_a <- svycoxph(Surv(`Time to Ambulatory Care Sensitive Acute`, censor) ~ imp_disruption_any + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) +factor(imp_imd2019_income_q5) + factor(cohort), data = sensitivity_analyses, design = wgt3) # Adjusted
+model_surv_any_b_a <- svycoxph(Surv(`Time to Ambulatory Care Sensitive Acute`, censor) ~ imp_disruption_any + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) +factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = sensitivity_analyses, design = wgt3) # Adjusted
 hold <- tidy(model_surv_any_b_a, conf.int = TRUE) # Save key results
 hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "Acute ACS - adj" # Note model name
@@ -108,7 +108,7 @@ hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "Chronic ACS - unadj" # Note model name
 table2 <- rbind(table2, hold) # Join to main table
 
-model_surv_any_c_a <- svycoxph(Surv(`Time to Ambulatory Care Sensitive Chronic`, censor) ~ imp_disruption_any + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) +factor(imp_imd2019_income_q5) + factor(cohort), data = sensitivity_analyses, design = wgt3) # Adjusted
+model_surv_any_c_a <- svycoxph(Surv(`Time to Ambulatory Care Sensitive Chronic`, censor) ~ imp_disruption_any + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) +factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = sensitivity_analyses, design = wgt3) # Adjusted
 hold <- tidy(model_surv_any_c_a, conf.int = TRUE) # Save key results
 hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "Chronic ACS - adj" # Note model name
@@ -124,7 +124,7 @@ hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "Vaccine preventable ACS - unadj" # Note model name
 table2 <- rbind(table2, hold) # Join to main table
 
-model_surv_any_d_a <- svycoxph(Surv(`Time to Ambulatory Care Sensitive Vaccine-preventable`, censor) ~ imp_disruption_any + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) +factor(imp_imd2019_income_q5) + factor(cohort), data = sensitivity_analyses, design = wgt3) # Adjusted
+model_surv_any_d_a <- svycoxph(Surv(`Time to Ambulatory Care Sensitive Vaccine-preventable`, censor) ~ imp_disruption_any + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) +factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = sensitivity_analyses, design = wgt3) # Adjusted
 hold <- tidy(model_surv_any_d_a, conf.int = TRUE) # Save key results
 hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "Vaccine preventable ACS - adj" # Note model name
@@ -140,7 +140,7 @@ hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "EUCS - unadj" # Note model name
 table2 <- rbind(table2, hold) # Join to main table
 
-model_surv_any_e_a <- svycoxph(Surv(`Time to Emergency Urgent Care Sensitive `, censor) ~ imp_disruption_any + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) +factor(imp_imd2019_income_q5) + factor(cohort), data = sensitivity_analyses, design = wgt3) # Adjusted
+model_surv_any_e_a <- svycoxph(Surv(`Time to Emergency Urgent Care Sensitive `, censor) ~ imp_disruption_any + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) +factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = sensitivity_analyses, design = wgt3) # Adjusted
 hold <- tidy(model_surv_any_e_a, conf.int = TRUE) # Save key results
 hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "EUCS - adj" # Note model name
@@ -156,7 +156,7 @@ hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "Any adm - unadj" # Note model name
 table2 <- rbind(table2, hold) # Join to main table
 
-model_surv_any_f_a <- svycoxph(Surv(time_to_total_admissions, censor) ~ imp_disruption_any + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) +factor(imp_imd2019_income_q5) + factor(cohort), data = sensitivity_analyses, design = wgt3) # Adjusted
+model_surv_any_f_a <- svycoxph(Surv(time_to_total_admissions, censor) ~ imp_disruption_any + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) +factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = sensitivity_analyses, design = wgt3) # Adjusted
 hold <- tidy(model_surv_any_f_a, conf.int = TRUE) # Save key results
 hold <- hold[2,] # Extract only healthcare disruption variable
 hold$model <- "Any adm - adj" # Note model name
@@ -174,7 +174,7 @@ table3 <- tidy(model_surv_type_a_u, conf.int = TRUE) # Save key results
 table3 <- table3[2:4,] # Extract only healthcare disruption variable
 table3$model <- "All ACS - unadj" # Note model name
 
-model_surv_type_a_a <- svycoxph(Surv(time_to_ambulatory_all, censor) ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) +factor(imp_imd2019_income_q5) + factor(cohort), data = sensitivity_analyses, design = wgt3) # Adjusted
+model_surv_type_a_a <- svycoxph(Surv(time_to_ambulatory_all, censor) ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) +factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = sensitivity_analyses, design = wgt3) # Adjusted
 hold <- tidy(model_surv_type_a_a, conf.int = TRUE) # Save key results
 hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "All ACS - adj" # Note model name
@@ -187,7 +187,7 @@ hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "Acute ACS - unadj" # Note model name
 table3 <- rbind(table3, hold) # Join to main table
 
-model_surv_type_b_a <- svycoxph(Surv(`Time to Ambulatory Care Sensitive Acute`, censor) ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) +factor(imp_imd2019_income_q5) + factor(cohort), data = sensitivity_analyses, design = wgt3) # Adjusted
+model_surv_type_b_a <- svycoxph(Surv(`Time to Ambulatory Care Sensitive Acute`, censor) ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) +factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = sensitivity_analyses, design = wgt3) # Adjusted
 hold <- tidy(model_surv_type_b_a, conf.int = TRUE) # Save key results
 hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "Acute ACS - adj" # Note model name
@@ -200,7 +200,7 @@ hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "Chronic ACS - unadj" # Note model name
 table3 <- rbind(table3, hold) # Join to main table
 
-model_surv_type_c_a <- svycoxph(Surv(`Time to Ambulatory Care Sensitive Chronic`, censor)  ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) +factor(imp_imd2019_income_q5) + factor(cohort), data = sensitivity_analyses, design = wgt3) # Adjusted
+model_surv_type_c_a <- svycoxph(Surv(`Time to Ambulatory Care Sensitive Chronic`, censor)  ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) +factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = sensitivity_analyses, design = wgt3) # Adjusted
 hold <- tidy(model_surv_type_c_a, conf.int = TRUE) # Save key results
 hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "Chronic ACS - adj" # Note model name
@@ -213,7 +213,7 @@ hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "Vaccine preventable ACS - unadj" # Note model name
 table3 <- rbind(table3, hold) # Join to main table
 
-model_surv_type_d_a <- svycoxph(Surv(`Time to Ambulatory Care Sensitive Vaccine-preventable`, censor) ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) +factor(imp_imd2019_income_q5) + factor(cohort), data = sensitivity_analyses, design = wgt3) # Adjusted
+model_surv_type_d_a <- svycoxph(Surv(`Time to Ambulatory Care Sensitive Vaccine-preventable`, censor) ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) +factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = sensitivity_analyses, design = wgt3) # Adjusted
 hold <- tidy(model_surv_type_d_a, conf.int = TRUE) # Save key results
 hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "Vaccine preventable ACS - adj" # Note model name
@@ -226,7 +226,7 @@ hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "EUCS - unadj" # Note model name
 table3 <- rbind(table3, hold) # Join to main table
 
-model_surv_type_e_a <- svycoxph(Surv(`Time to Emergency Urgent Care Sensitive `, censor) ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) +factor(imp_imd2019_income_q5) + factor(cohort), data = sensitivity_analyses, design = wgt3) # Adjusted
+model_surv_type_e_a <- svycoxph(Surv(`Time to Emergency Urgent Care Sensitive `, censor) ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) +factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = sensitivity_analyses, design = wgt3) # Adjusted
 hold <- tidy(model_surv_type_e_a, conf.int = TRUE) # Save key results
 # If unhappy, then can do manually with confint(model_surv_type_e_a, parm = "disruption_appointments")
 hold <- hold[2:4,] # Extract only healthcare disruption variable
@@ -240,7 +240,7 @@ hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "Any adm - unadj" # Note model name
 table3 <- rbind(table3, hold) # Join to main table
 
-model_surv_type_f_a <- svycoxph(Surv(time_to_total_admissions, censor) ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) +factor(imp_imd2019_income_q5) + factor(cohort), data = sensitivity_analyses, design = wgt3) # Adjusted
+model_surv_type_f_a <- svycoxph(Surv(time_to_total_admissions, censor) ~ imp_disruption_appointments + imp_disruption_medications + imp_disruption_procedures + factor(imp_sex) + imp_age + imp_age2 + factor(imp_not_white) + factor(imp_own_home) + factor(imp_general_health) +factor(imp_imd2019_income_q5) + factor(cohort) + imp_quan_cci, data = sensitivity_analyses, design = wgt3) # Adjusted
 hold <- tidy(model_surv_type_f_a, conf.int = TRUE) # Save key results
 hold <- hold[2:4,] # Extract only healthcare disruption variable
 hold$model <- "Any adm - adj" # Note model name
